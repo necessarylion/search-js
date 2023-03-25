@@ -8,7 +8,7 @@ export class Item {
       </div>
       <div style="flex: 1">
         <div class="item-title">${item.title}</div>
-        <div class="item-description">${item.description}</div>
+        ${item.description ? `<div class="item-description">${item.description}</div>` : ``}
       </div>
       ${
         hideClose
