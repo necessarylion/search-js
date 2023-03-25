@@ -1,6 +1,6 @@
 export class DomListener {
   onBackDropClick(callback) {
-    const element = document.querySelector('#search-js .container')
+    const element = document.querySelector('#search-js.container')
     element.addEventListener('click', (event) => {
       if (event.target === element) {
         callback()
