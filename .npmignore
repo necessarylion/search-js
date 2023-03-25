@@ -6,3 +6,5 @@ index.html
 webpack.config.js
 webpack.cdn.config.js
 .prettierrc
+.github
+demo
