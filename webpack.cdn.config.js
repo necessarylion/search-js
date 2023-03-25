@@ -4,19 +4,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: './src/index.js',
-  experiments: {
-    outputModule: true,
-  },
   output: {
-    filename: 'index.js',
+    filename: 'search-js.js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'module'
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
     })
   ],
+  devServer: {
+    port: 3000,
+    open: true
+  },
   module: {
     rules: [
       {

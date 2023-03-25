@@ -1,6 +1,8 @@
 src
 dist/index.html
+!dist/search-js.js
 !dist/index.js
 index.html
 webpack.config.js
+webpack.cdn.config.js
 .prettierrc

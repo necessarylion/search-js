@@ -57,6 +57,7 @@ export class SearchComponent {
         --search-js-height: ${this.searchJs.config.height ?? '450px'};
         --search-js-theme: ${this.searchJs.config.theme ?? '#FF2E1F'};
         --search-js-font-family: ${fontFamily};
+        --search-js-top: ${this.searchJs.config.positionTop ?? '85px'}
       }`
   }
 

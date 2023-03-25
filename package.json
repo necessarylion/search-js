@@ -1,11 +1,12 @@
 {
   "name": "@bilions/search-js",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Instance search UI component",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "webpack serve",
+    "dev": "webpack serve --config webpack.cdn.config.js",
     "build": "webpack",
+    "build:cdn": "webpack --config webpack.cdn.config.js",
     "format": "prettier --write \"src/**/*.js\""
   },
   "repository": {

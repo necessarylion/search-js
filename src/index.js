@@ -1,7 +1,7 @@
 import './css/index.scss'
 import { SearchComponent } from './utils/SearchComponent'
 
-class SearchJS {
+class SearchJSApp {
   constructor(config) {
     this.config = config
     this.component = new SearchComponent(this)
@@ -37,5 +37,10 @@ class SearchJS {
   }
 }
 
+const SearchJS = (config) => {
+  return new SearchJSApp(config)
+}
+
 window.SearchJS = SearchJS
+
 export default SearchJS
