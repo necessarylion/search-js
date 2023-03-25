@@ -3,8 +3,8 @@
 Instance search UI component
 
 ### Demo 
-![Demo 1](demo/demo1.png)
-![Demo 2](demo/demo2.png)
+<img width="400" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo1.png" />
+<img width="400" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo2.png" />
 
 ### Usage
 
