@@ -2,6 +2,10 @@
 
 Instance search UI component
 
+### Demo 
+![Demo 1](demo/demo1.png)
+![Demo 2](demo/demo2.png)
+
 ### Usage
 
 ```js
