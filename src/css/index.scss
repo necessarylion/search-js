@@ -6,7 +6,7 @@
   top: 0;
   bottom: 0;
   width: 100%;
-  background: rgba(101, 108, 133, 0.8);
+  background: var(--search-js-backdrop-bg);
   justify-content: center;
   align-items: flex-start;
   padding-top: var(--search-js-top);
@@ -15,10 +15,10 @@
     width: var(--search-js-width);
     max-height: var(--search-js-height);
     display: flex;
-    background: #f5f6f7;
+    background: var(--search-js-modal-bg);
     border-radius: 8px;
     flex-direction: column;
-    box-shadow: inset 1px 1px 0 0 hsla(0, 0%, 100%, 0.5), 0 3px 8px 0 #555a64;
+    box-shadow: var(--search-js-modal-box-shadow);
     animation-name: animatetop;
     animation-duration: 0.8s;
 
@@ -36,6 +36,7 @@
     .modal-header {
       padding: 10px 10px 0px 10px;
       .search-container {
+        background: var(--search-js-search-input-bg);
         width: 100%;
         height: 50px;
         border-radius: 6px;
@@ -60,6 +61,7 @@
 
         .search-input {
           width: 100%;
+          color: var(--search-js-text-color);
           height: 40px;
           outline: none;
           font-family: var(--search-js-font-family);
@@ -70,6 +72,22 @@
           -moz-box-sizing: border-box;
           box-sizing: border-box;
           font-size: 16px;
+        }
+
+        ::-webkit-input-placeholder {
+          color: var(--search-js-input-placeholder-color);
+        }
+
+        ::-moz-placeholder {
+          color: var(--search-js-input-placeholder-color);
+        }
+
+        ::-ms-placeholder {
+          color: var(--search-js-input-placeholder-color);
+        }
+
+        ::placeholder {
+          color: var(--search-js-input-placeholder-color);
         }
       }
     }
@@ -85,7 +103,7 @@
       overflow: scroll;
 
       .no-recent {
-        color: #969faf;
+        color: var(--search-js-text-color);
         font-size: 14px;
         display: flex;
         align-items: center;
@@ -101,24 +119,25 @@
           display: flex;
           cursor: pointer;
           flex-direction: row;
-          background: white;
+          background: var(--search-js-item-bg);
           padding: 10px;
           margin-bottom: 5px;
           border-radius: 5px;
           align-items: center;
-          box-shadow: 0 1px 3px 0 #d4d9e1;
+          box-shadow: var(--search-js-item-box-shadow);
 
           .item-icon {
             margin-right: 8px;
           }
 
           .item-title {
+            color: var(--search-js-text-color);
             font-size: 15px;
             margin-bottom: 4px;
           }
           .item-description {
             font-size: 13px;
-            color: #969faf;
+            color: var(--search-js-text-color);
           }
         }
 
@@ -130,6 +149,10 @@
             stroke: white !important;
           }
 
+          .item-title {
+            color: white;
+          }
+
           .item-description {
             font-size: 13px;
             color: white;
@@ -139,23 +162,23 @@
     }
 
     .modal-footer {
-      box-shadow: 0 -1px 0 0 #e0e3e8, 0 -3px 6px 0 rgba(69, 98, 155, 0.12);
+      box-shadow: var(--search-js-modal-footer-box-shadow);
       height: 40px;
       display: flex;
       flex-direction: row;
       align-items: center;
       padding: 0px 10px;
-      color: #969faf;
+      color: var(--search-js-text-color);
       font-weight: 300;
       font-size: 13px;
 
       .keyboard-button {
         align-items: center;
-        background: linear-gradient(-225deg, #d5dbe4, #f8f8f8);
+        background: var(--search-js-keyboard-button-bg);
         border: 0;
         border-radius: 2px;
-        box-shadow: inset 0 -2px 0 0 #cdcde6, inset 0 0 1px 1px #fff, 0 1px 2px 1px rgba(30, 35, 90, 0.4);
-        color: #969faf;
+        box-shadow: var(--search-js-keyboard-button-box-shadow);
+        color: var(--search-js-text-color);
         display: flex;
         height: 18px;
         justify-content: center;
