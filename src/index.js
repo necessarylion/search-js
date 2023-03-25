@@ -8,6 +8,15 @@ class SearchJS {
     this._listenKeyboardKeyPress()
   }
 
+  open() {
+    this.component.element.style.display = 'flex'
+    this._focusOnSearch()
+  }
+
+  close() {
+    this.component.element.style.display = 'none'
+  }
+
   _focusOnSearch() {
     const element = document.querySelector('#search-js .search-input')
     element.focus()
@@ -25,15 +34,6 @@ class SearchJS {
         close()
       }
     }
-  }
-
-  open() {
-    this.component.element.style.display = 'flex'
-    this._focusOnSearch()
-  }
-
-  close() {
-    this.component.element.style.display = 'none'
   }
 }
 

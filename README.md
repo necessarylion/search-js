@@ -7,7 +7,13 @@ Instance search UI component
 <img width="400" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo1.png" />
 <img width="400" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo2.png" />
 
-### Usage
+### Usage via cdn
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@bilions/search-js/dist/index.js"></script>
+```
+
+### Usage via npm
 
 `npm install @bilions/search-js`
 
