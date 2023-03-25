@@ -1,0 +1,39 @@
+{
+  "name": "search-js",
+  "version": "0.0.1",
+  "description": "Instance search UI component",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "webpack serve",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/necessarylion/search-js.git"
+  },
+  "keywords": [
+    "search-js",
+    "instance",
+    "search",
+    "algolia",
+    "search",
+    "ui"
+  ],
+  "author": "AJ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/necessarylion/search-js/issues"
+  },
+  "homepage": "https://github.com/necessarylion/search-js#readme",
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "node-sass": "^8.0.0",
+    "sass-loader": "^13.2.1",
+    "style-loader": "^3.3.2",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1"
+  }
+}
