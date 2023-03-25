@@ -1,5 +1,9 @@
 ## Search JS
 
+![build status](https://github.com/necessarylion/search-js/actions/workflows/release.yml/badge.svg)
+
+[![npm version](https://badge.fury.io/js/@bilions%2Fsearch-js.svg)](https://badge.fury.io/js/@bilions%2Fsearch-js) [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+
 Instance search UI component for any Javascript framework.
 
 Compatible with
