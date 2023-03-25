@@ -12,7 +12,7 @@ Instance search UI component
 `npm install @bilions/search-js`
 
 ```js
-import SearchJS from 'search-js'
+import SearchJS from '@bilions/search-js'
 
 const data = [
   {
@@ -45,18 +45,19 @@ searchJs.open()
 
 #### Available Options
 
-| **Name**             | **Required** | **Description**                                      |
-| -------------------- | :----------: | ---------------------------------------------------- |
-| `data`               |     YES      | data to search                                       |
-| `data.title`         |     YES      | data title                                           |
-| `data.description`   |      NO      | data description                                     |
-| `element`            |      NO      | element to append search-js                          |
-| `width`              |      NO      | modal width default (400px)                          |
-| `search`             |              |                                                      |
-| `search.icon`        |      NO      | svg icon string for search input                     |
-| `search.placeholder` |      NO      | placeholder text for search input (default `Search`) |
-| `onSelected`         |     YES      | callback function to trigger selected item           |
+| **Name**             | **Required** | **Description**                                         |
+| -------------------- | :----------: | ------------------------------------------------------- |
+| `data`               |     YES      | data to search                                          |
+| `data.title`         |     YES      | data title                                              |
+| `data.description`   |      NO      | data description                                        |
+| `element`            |      NO      | element to append search-js                             |
+| `width`              |      NO      | modal width default (400px)                             |
+| `search`             |              |                                                         |
+| `search.icon`        |      NO      | svg icon string for search input                        |
+| `search.placeholder` |      NO      | placeholder text for search input (default `Search`)    |
+| `onSelected`         |     YES      | callback function that will trigger after item selected |
 
 #### Available functions
 
-- `open()` open function will trigger to open search menu, alternative press `cmd + k` or `ctrl + k` to open menu
+- `open()` open function will trigger to open search menu
+- Alternatively press `cmd + k` or `ctrl + k` to open search menu
