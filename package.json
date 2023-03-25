@@ -1,12 +1,12 @@
 {
-  "name": "search-js",
-  "version": "0.0.1",
+  "name": "@bilions/search-js",
+  "version": "0.0.2-alpha.1",
   "description": "Instance search UI component",
   "main": "dist/index.js",
-  "private": true,
   "scripts": {
     "dev": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "format": "prettier --write \"src/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "node-sass": "^8.0.0",
+    "prettier": "^2.8.7",
     "sass-loader": "^13.2.1",
     "style-loader": "^3.3.2",
     "webpack": "^5.76.3",

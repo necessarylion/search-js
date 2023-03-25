@@ -6,12 +6,6 @@ import { DomListener } from './DomListener'
 import { SearchHistory } from './SearchHistory'
 
 export class SearchComponent {
-  element
-
-  searchJs
-
-  histories
-
   constructor(searchJs) {
     this.searchJs = searchJs
     this.domListener = new DomListener()
@@ -37,7 +31,10 @@ export class SearchComponent {
         return
       }
       const items = this.searchJs.config.data.filter((item) => {
-        return (item.title && item.title.toLowerCase().includes(keyword)) || (item.description && item.description.toLowerCase().includes(keyword))
+        return (
+          (item.title && item.title.toLowerCase().includes(keyword)) ||
+          (item.description && item.description.toLowerCase().includes(keyword))
+        )
       })
       this.hideHistories()
       this.renderList(items)
@@ -49,8 +46,8 @@ export class SearchComponent {
   }
 
   createGlobalCssVariable() {
-    const bodyStyle = window.getComputedStyle(document.body);
-    const fontFamily = bodyStyle.getPropertyValue('font-family');
+    const bodyStyle = window.getComputedStyle(document.body)
+    const fontFamily = bodyStyle.getPropertyValue('font-family')
 
     const style = document.createElement('style')
     document.head.appendChild(style)
@@ -137,14 +134,17 @@ export class SearchComponent {
   }
 
   handleItemClickListener() {
-    this.domListener.onItemClick((payload) => {
-      const data = JSON.parse(payload)
-      this.searchHistory.add(data)
-      this.searchJs.config.onSelected(data)
-    }, (payload) => {
-      const data = JSON.parse(payload)
-      this.searchHistory.remove(data)
-      this.renderHistories(this.searchHistory.getList())
-    })
+    this.domListener.onItemClick(
+      (payload) => {
+        const data = JSON.parse(payload)
+        this.searchHistory.add(data)
+        this.searchJs.config.onSelected(data)
+      },
+      (payload) => {
+        const data = JSON.parse(payload)
+        this.searchHistory.remove(data)
+        this.renderHistories(this.searchHistory.getList())
+      },
+    )
   }
 }

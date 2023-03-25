@@ -1,0 +1,6 @@
+src
+dist/index.html
+!dist/index.js
+index.html
+webpack.config.js
+.prettierrc

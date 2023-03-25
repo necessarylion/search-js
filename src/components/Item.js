@@ -11,8 +11,9 @@ export class Item {
         <div class="item-description">${item.description}</div>
       </div>
       ${
-        hideClose ? `` : 
-        `<div class="item-close" data-payload='${JSON.stringify(item)}'>
+        hideClose
+          ? ``
+          : `<div class="item-close" data-payload='${JSON.stringify(item)}'>
           ${closeIcon()}
         </div>`
       }

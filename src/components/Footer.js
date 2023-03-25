@@ -1,4 +1,3 @@
-
 export class Footer {
   render(config) {
     return `

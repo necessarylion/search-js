@@ -31,7 +31,7 @@ export class SearchHistory {
       return JSON.stringify(d) == JSON.stringify(item)
     })
 
-    if(index != -1) {
+    if (index != -1) {
       arrayItems.splice(index, 1)
     }
 
@@ -47,12 +47,12 @@ export class SearchHistory {
     if (arrayItems.length == this.maxItems) {
       arrayItems.pop()
     }
-    
+
     const findItem = arrayItems.find((d) => {
       return JSON.stringify(d) == JSON.stringify(item)
     })
 
-    if(!findItem) {
+    if (!findItem) {
       arrayItems.push(item)
     }
 

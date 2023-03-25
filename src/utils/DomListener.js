@@ -1,5 +1,4 @@
 export class DomListener {
-
   onBackDropClick(callback) {
     const element = document.querySelector('#search-js .container')
     element.addEventListener('click', (event) => {
@@ -22,13 +21,13 @@ export class DomListener {
     items.forEach((el) =>
       el.addEventListener('click', (event) => {
         const closeElements = event.target.closest('.item-close *')
-        if(event.target == closeElements) {
-          return;
+        if (event.target == closeElements) {
+          return
         }
         const parentElement = event.target.closest('.item')
         const route = parentElement.getAttribute('data-payload')
         onSelected(route)
-      })
+      }),
     )
 
     const closeItems = document.querySelectorAll('#search-js .item-close')
@@ -37,7 +36,7 @@ export class DomListener {
         const parentElement = event.target.closest('.item-close')
         const route = parentElement.getAttribute('data-payload')
         onRemove(route)
-      })
+      }),
     )
   }
 }
