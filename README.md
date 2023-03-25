@@ -1,6 +1,11 @@
 ## Search JS
 
-Instance search UI component
+Instance search UI component for any Javascript framework.
+
+Compatible with
+- React
+- Vue
+- Angular
 
 <img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo1.png" />
 
