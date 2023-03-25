@@ -2,18 +2,15 @@
 
 Instance search UI component
 
-### Demo
+<img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo1.png" />
 
-<img width="400" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo1.png" />
-<img width="400" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo2.png" />
-
-### Usage via cdn
+#### Usage via cdn
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@bilions/search-js/dist/search-js.js"></script>
 ```
 
-### Usage via npm
+#### Usage via npm
 
 `npm install @bilions/search-js`
 
@@ -23,12 +20,12 @@ import SearchJS from '@bilions/search-js'
 const data = [
   {
     title: 'Validation',
-    description: 'Create validation easily using Laravel validator',
+    description: 'Create validation easily using validator',
     route: '/validation',
   },
   {
     title: 'Request',
-    description: 'Laravel request',
+    description: 'Http request',
     route: '/request',
   },
 ]
@@ -115,3 +112,5 @@ root {
   --search-js-item-box-shadow: none;
 }
 ```
+
+Inspired by algolia
