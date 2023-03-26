@@ -1,16 +1,16 @@
-import { hashIcon, historyIcon } from '../assets/icon'
+import { hashIcon, historyIcon } from '../assets/Icon'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Item } from '../components/Item'
 import { DomListener } from './DomListener'
 import { SearchHistory } from './SearchHistory'
-import { App } from '../main'
+import { SearchJSApp } from '..'
 import { SearchJSItem } from '../types'
 
 export class SearchComponent {
   public element: HTMLElement
 
-  constructor(private app: App, private domListener: DomListener, private searchHistory: SearchHistory) {
+  constructor(private app: SearchJSApp, private domListener: DomListener, private searchHistory: SearchHistory) {
     // add global css variable
     this.createGlobalCssVariable()
 

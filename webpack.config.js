@@ -1,10 +1,9 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/main.ts',
+  entry: './src/index.ts',
   experiments: {
     outputModule: true,
   },
@@ -17,11 +16,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'src/types', to: 'types' },
-      ],
-    })
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],

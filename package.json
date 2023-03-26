@@ -1,12 +1,11 @@
 {
   "name": "@bilions/search-js",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Instance search UI component",
   "main": "dist/index.js",
   "scripts": {
     "dev": "webpack serve --config webpack.cdn.config.js",
-    "build": "webpack",
-    "build:cdn": "webpack --config webpack.cdn.config.js",
+    "build": "rm -rf dist && webpack && webpack --config webpack.cdn.config.js",
     "format": "prettier --write \"src/**/*.ts\""
   },
   "repository": {
@@ -28,7 +27,6 @@
   },
   "homepage": "https://github.com/necessarylion/search-js#readme",
   "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "node-sass": "^8.0.0",

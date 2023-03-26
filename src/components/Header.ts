@@ -1,5 +1,5 @@
 import { SearchJSConfig } from '../types'
-import { searchIcon } from '../assets/icon'
+import { searchIcon } from '../assets/Icon'
 
 export class Header {
   render(config: SearchJSConfig) {
