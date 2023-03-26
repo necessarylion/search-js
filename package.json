@@ -1,6 +1,6 @@
 {
   "name": "@bilions/search-js",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Instance search UI component",
   "main": "dist/index.js",
   "scripts": {

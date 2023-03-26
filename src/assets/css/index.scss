@@ -113,10 +113,12 @@
       padding: 30px !important;
       color: var(--search-js-text-color);
       font-size: 14px;
-      animation-name: spin;
-      animation-duration: 2000ms;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear; 
+      svg {
+        animation-name: spin;
+        animation-duration: 2000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear; 
+      }
     }
 
     .modal-content {
