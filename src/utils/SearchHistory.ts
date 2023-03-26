@@ -1,15 +1,17 @@
+import { SearchJSItem } from '../types'
+
 export class SearchHistory {
-  db
+  private db
 
-  maxItems = 3
+  private maxItems = 3
 
-  storageKey = 'search-js-histories'
+  private storageKey = 'search-js-histories'
 
   constructor() {
     this.db = window.localStorage
   }
 
-  getList() {
+  public getList() {
     let data = this.db.getItem(this.storageKey)
     if (!data) {
       data = '[]'
@@ -17,17 +19,17 @@ export class SearchHistory {
     return JSON.parse(data)
   }
 
-  clear() {
+  public clear() {
     this.db.setItem(this.storageKey, '[]')
   }
 
-  remove(item) {
+  public remove(item: SearchJSItem) {
     let data = this.db.getItem(this.storageKey)
     if (!data) {
       data = '[]'
     }
     const arrayItems = JSON.parse(data)
-    const index = arrayItems.findIndex((d) => {
+    const index = arrayItems.findIndex((d: SearchJSItem) => {
       return JSON.stringify(d) == JSON.stringify(item)
     })
 
@@ -38,7 +40,7 @@ export class SearchHistory {
     this.db.setItem(this.storageKey, JSON.stringify(arrayItems))
   }
 
-  add(item) {
+  public add(item: SearchJSItem) {
     let data = this.db.getItem(this.storageKey)
     if (!data) {
       data = '[]'
@@ -48,7 +50,7 @@ export class SearchHistory {
       arrayItems.pop()
     }
 
-    const findItem = arrayItems.find((d) => {
+    const findItem = arrayItems.find((d: SearchJSItem) => {
       return JSON.stringify(d) == JSON.stringify(item)
     })
 

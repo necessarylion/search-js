@@ -1,18 +1,17 @@
 const hashIcon = (color = '#969faf') => {
   return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 3L8 21" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M16 3L14 21" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M3.5 9H21.5" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M2.5 15H20.5" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`
+    <path d="M10 3L8 21" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16 3L14 21" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3.5 9H21.5" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2.5 15H20.5" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`
 }
 
 const historyIcon = (color = '#969faf') => {
   return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    `
+  </svg>`
 }
 
 const searchIcon = (color = '#000000') => {
@@ -23,8 +22,7 @@ const closeIcon = (color = '#969faf') => {
   return `<svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M9.16998 14.83L14.83 9.17004" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M14.83 14.83L9.16998 9.17004" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  `
+  </svg>`
 }
 
 export { hashIcon, searchIcon, historyIcon, closeIcon }

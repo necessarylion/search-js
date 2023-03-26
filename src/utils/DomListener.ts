@@ -1,5 +1,5 @@
 export class DomListener {
-  onBackDropClick(callback) {
+  public onBackDropClick(callback: Function) {
     const element = document.querySelector('#search-js.container')
     element.addEventListener('click', (event) => {
       if (event.target === element) {
@@ -8,18 +8,18 @@ export class DomListener {
     })
   }
 
-  OnSearch(callback) {
+  public onSearch(callback: Function) {
     const element = document.querySelector('#search-js .search-input')
-    element.addEventListener('keyup', (event) => {
+    element.addEventListener('keyup', (event: any) => {
       const keyword = event.target.value.toLowerCase()
       callback(keyword)
     })
   }
 
-  onItemClick(onSelected, onRemove) {
+  public onItemClick(onSelected: Function, onRemove: Function) {
     const items = document.querySelectorAll('#search-js .item')
     items.forEach((el) =>
-      el.addEventListener('click', (event) => {
+      el.addEventListener('click', (event: any) => {
         const closeElements = event.target.closest('.item-close *')
         if (event.target == closeElements) {
           return
@@ -32,7 +32,7 @@ export class DomListener {
 
     const closeItems = document.querySelectorAll('#search-js .item-close')
     closeItems.forEach((el) =>
-      el.addEventListener('click', (event) => {
+      el.addEventListener('click', (event: any) => {
         const parentElement = event.target.closest('.item-close')
         const route = parentElement.getAttribute('data-payload')
         onRemove(route)
