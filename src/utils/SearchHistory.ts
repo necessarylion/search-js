@@ -3,7 +3,7 @@ import { SearchJSItem } from '../types'
 export class SearchHistory {
   private db
 
-  private maxItems = 3
+  private maxItems = 4
 
   private storageKey = 'search-js-histories'
 
@@ -16,7 +16,7 @@ export class SearchHistory {
     if (!data) {
       data = '[]'
     }
-    return JSON.parse(data)
+    return JSON.parse(data).reverse()
   }
 
   public clear() {

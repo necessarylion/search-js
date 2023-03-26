@@ -25,8 +25,8 @@ export class DomListener {
           return
         }
         const parentElement = event.target.closest('.item')
-        const route = parentElement.getAttribute('data-payload')
-        onSelected(route)
+        const data = parentElement.getAttribute('data-payload')
+        onSelected(JSON.parse(unescape(window.atob(data))))
       }),
     )
 
@@ -34,8 +34,8 @@ export class DomListener {
     closeItems.forEach((el) =>
       el.addEventListener('click', (event: any) => {
         const parentElement = event.target.closest('.item-close')
-        const route = parentElement.getAttribute('data-payload')
-        onRemove(route)
+        const data = parentElement.getAttribute('data-payload')
+        onRemove(JSON.parse(unescape(window.atob(data))))
       }),
     )
   }

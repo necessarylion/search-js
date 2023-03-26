@@ -1,4 +1,4 @@
-import { hashIcon, historyIcon } from '../assets/Icon'
+import { hashIcon, historyIcon, loadingIcon } from '../assets/Icon'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Item } from '../components/Item'
@@ -6,11 +6,18 @@ import { DomListener } from './DomListener'
 import { SearchHistory } from './SearchHistory'
 import { SearchJSApp } from '..'
 import { SearchJSItem } from '../types'
+import { Theme } from './Theme'
 
 export class SearchComponent {
   public element: HTMLElement
 
-  constructor(private app: SearchJSApp, private domListener: DomListener, private searchHistory: SearchHistory) {
+  private searchTimer?: number
+
+  constructor(
+    private app: SearchJSApp,
+    private domListener: DomListener,
+    private searchHistory: SearchHistory,
+  ) {
     // add global css variable
     this.createGlobalCssVariable()
 
@@ -24,20 +31,40 @@ export class SearchComponent {
       this.app.close()
     })
 
-    this.domListener.onSearch((keyword: string) => {
+    this.handleOnSearch()
+  }
+
+  private handleOnSearch() {
+    this.domListener.onSearch(async (keyword: string) => {
       if (!keyword) {
+        this.hideLoading()
         this.showHistories()
         this.hideSearchResult()
         return
       }
-      const items = this.app.config.data.filter((item) => {
-        return (
-          (item.title && item.title.toLowerCase().includes(keyword)) ||
-          (item.description && item.description.toLowerCase().includes(keyword))
-        )
-      })
       this.hideHistories()
-      this.renderList(items)
+      this.hideSearchResult()
+      if (this.app.config.onSearch) {
+        this.showLoading()
+        clearTimeout(this.searchTimer)
+        this.searchTimer = setTimeout(async () => {
+          let items = await this.app.config.onSearch(keyword)
+          this.hideLoading()
+          this.renderList(items)
+        }, this.app.config.onSearchDelay ?? 500)
+      } else {
+        this.renderList(this.getItems(keyword))
+      }
+    })
+  }
+
+  private getItems(keyword: string) {
+    const items = this.app.config.data
+    return items.filter((item) => {
+      return (
+        (item.title && item.title.toLowerCase().includes(keyword)) ||
+        (item.description && item.description.toLowerCase().includes(keyword))
+      )
     })
   }
 
@@ -53,45 +80,17 @@ export class SearchComponent {
     document.head.appendChild(style)
     style.innerHTML = `
       :root {
-        ${this.app.config.darkMode ? this.getDarkThemeVariable() : this.getLightThemeVariable()}
+        ${
+          this.app.config.darkMode
+            ? Theme.getDarkThemeVariable()
+            : Theme.getLightThemeVariable()
+        }
         --search-js-width: ${this.app.config.width ?? '400px'};
         --search-js-height: ${this.app.config.height ?? '450px'};
         --search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
         --search-js-font-family: ${fontFamily};
         --search-js-top: ${this.app.config.positionTop ?? '85px'}
       }`
-  }
-
-  private getLightThemeVariable() {
-    return `
-      --search-js-backdrop-bg: rgba(101, 108, 133, 0.8);
-      --search-js-modal-bg: #f5f6f7;
-      --search-js-modal-box-shadow: inset 1px 1px 0 0 hsla(0, 0%, 100%, 0.5), 0 3px 8px 0 #555a64;
-      --search-js-modal-footer-box-shadow: 0 -1px 0 0 #e0e3e8, 0 -3px 6px 0 rgba(69, 98, 155, 0.12);
-      --search-js-keyboard-button-box-shadow: inset 0 -2px 0 0 #cdcde6, inset 0 0 1px 1px #fff, 0 1px 2px 1px rgba(30, 35, 90, 0.4);
-      --search-js-keyboard-button-bg: linear-gradient(-225deg, #d5dbe4, #f8f8f8);
-      --search-js-search-input-bg: white;
-      --search-js-item-bg: white;
-      --search-js-text-color: #969faf;
-      --search-js-input-placeholder-color: #969faf;
-      --search-js-item-box-shadow: 0 1px 3px 0 #d4d9e1;
-    `
-  }
-
-  private getDarkThemeVariable() {
-    return `
-      --search-js-backdrop-bg: rgba(47, 55, 69, 0.7);
-      --search-js-modal-bg: #1b1b1d;
-      --search-js-modal-box-shadow: inset 1px 1px 0 0 #2c2e40, 0 3px 8px 0 #000309;
-      --search-js-modal-footer-box-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5), 0 -4px 8px 0 rgba(0, 0, 0, 0.2);
-      --search-js-keyboard-button-box-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d, 0 2px 2px 0 rgba(3, 4, 9, 0.3);
-      --search-js-keyboard-button-bg: linear-gradient(-26.5deg, var(--ifm-color-emphasis-200) 0%, var(--ifm-color-emphasis-100) 100%);
-      --search-js-search-input-bg: black;
-      --search-js-item-bg: #1c1e21;
-      --search-js-text-color: #b3b3b3;
-      --search-js-input-placeholder-color: #aeaeae;
-      --search-js-item-box-shadow: none;
-    `
   }
 
   private createElement() {
@@ -105,6 +104,7 @@ export class SearchComponent {
     element.innerHTML = `
       <div class="modal"> 
         <div class="modal-header">${header.render(this.app.config)}</div>
+        <div id="search-js-loading" class="modal-content">${loadingIcon()}</div>
         <div id="search-js-histories" class="modal-content"></div>
         <div id="search-js-result" class="modal-content"></div>
         <div class="modal-footer">${footer.render(this.app.config)}</div>
@@ -115,18 +115,23 @@ export class SearchComponent {
   }
 
   private hideHistories() {
-    const element = document.getElementById('search-js-histories')
-    element.style.display = 'none'
+    document.getElementById('search-js-histories').style.display = 'none'
+  }
+
+  private showLoading() {
+    document.getElementById('search-js-loading').style.display = 'flex'
+  }
+
+  private hideLoading() {
+    document.getElementById('search-js-loading').style.display = 'none'
   }
 
   private hideSearchResult() {
-    const element = document.getElementById('search-js-result')
-    element.style.display = 'none'
+    document.getElementById('search-js-result').style.display = 'none'
   }
 
   private showHistories() {
-    const element = document.getElementById('search-js-histories')
-    element.style.display = 'block'
+    document.getElementById('search-js-histories').style.display = 'block'
   }
 
   private renderHistories(items: Array<SearchJSItem>) {
@@ -152,6 +157,7 @@ export class SearchComponent {
   }
 
   private renderList(items: Array<SearchJSItem>) {
+    this.hideHistories()
     const itemInstance = new Item()
     const element = document.getElementById('search-js-result')
     element.innerHTML = ``
@@ -169,13 +175,11 @@ export class SearchComponent {
 
   private handleItemClickListener() {
     this.domListener.onItemClick(
-      (payload: string) => {
-        const data = JSON.parse(payload)
+      (data: any) => {
         this.searchHistory.add(data)
         this.app.config.onSelected(data)
       },
-      (payload: string) => {
-        const data = JSON.parse(payload)
+      (data: any) => {
         this.searchHistory.remove(data)
         this.renderHistories(this.searchHistory.getList())
       },

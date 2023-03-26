@@ -10,7 +10,11 @@ export class SearchJSApp {
   private static _instance: SearchJSApp
 
   constructor(public config: SearchJSConfig) {
-    this.component = new SearchComponent(this, new DomListener(), new SearchHistory())
+    this.component = new SearchComponent(
+      this,
+      new DomListener(),
+      new SearchHistory(),
+    )
     this.listenKeyboardKeyPress()
   }
 
@@ -28,7 +32,9 @@ export class SearchJSApp {
   }
 
   private focusOnSearch() {
-    const element = document.querySelector<HTMLInputElement>('#search-js .search-input')
+    const element = document.querySelector<HTMLInputElement>(
+      '#search-js .search-input',
+    )
     element.focus()
   }
 
@@ -36,7 +42,9 @@ export class SearchJSApp {
     const open = () => this.open()
     const close = () => this.close()
     window.onkeydown = function (event) {
-      const openKeys = (event.ctrlKey && event.key === 'k') || (event.metaKey && event.key === 'k')
+      const openKeys =
+        (event.ctrlKey && event.key === 'k') ||
+        (event.metaKey && event.key === 'k')
       if (openKeys) {
         open()
       }

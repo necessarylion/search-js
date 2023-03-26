@@ -17,48 +17,26 @@
   </body>
   <script src="search-js.js"></script>
   <script>
-    const data = [
-      {
-        title: 'Validation',
-        description: 'Create validation easily using validator',
-        route: '/validation'
-      },
-      {
-        title: 'Request',
-        description: 'Request',
-        route: '/request'
-      },
-      {
-        title: 'Release Notes',
-        description: 'View release notes',
-        route: '/release-note'
-      },
-      {
-        title: 'Accessing configuration',
-        description: 'Configuration',
-        route: '/config'
-      },
-      {
-        title: 'Accessing configuration',
-        description: 'Configuration',
-        route: '/config'
-      },
-      {
-        title: 'Controller helpers',
-        route: '/helpers'
-      }
-    ]
+    async function getFromApi(keyword = '') {
+      let res = await fetch('https://dummyjson.com/products/search?q='+keyword)
+      let json = await res.json()
+      return json.products
+    }
+
     const searchJs = SearchJS({
       theme: '#FF2E1F',
       width: '600px',
-      darkMode: false,
+      darkMode: true,
       positionTop: '50px',
-      data,
+      data: [],
       search : {
         placeholder: 'Search docs'
       },
       onSelected : (route) => {
         console.log(route)
+      },
+      onSearch: (keyword) => {
+        return getFromApi(keyword)
       }
     })
     searchJs.open()
