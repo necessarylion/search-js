@@ -1,4 +1,4 @@
-import './css/index.scss'
+import './assets/css/index.scss'
 import { DomListener } from './utils/DomListener'
 import { SearchJSConfig } from './types'
 import { SearchComponent } from './utils/SearchComponent'
