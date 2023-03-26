@@ -1,7 +1,8 @@
 import { closeIcon } from '../assets/icon'
+import { SearchJSItem } from '../types'
 
 export class Item {
-  render(item, icon, hideClose = false) {
+  render(item: SearchJSItem, icon: string, hideClose: boolean = false) {
     return `<div class="item" data-payload='${JSON.stringify(item)}'>
       <div class="item-icon">
         ${icon}

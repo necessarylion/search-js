@@ -4,13 +4,13 @@ import { Header } from '../components/Header'
 import { Item } from '../components/Item'
 import { DomListener } from './DomListener'
 import { SearchHistory } from './SearchHistory'
+import { App } from '../main'
+import { SearchJSItem } from '../types'
 
 export class SearchComponent {
-  constructor(searchJs) {
-    this.searchJs = searchJs
-    this.domListener = new DomListener()
-    this.searchHistory = new SearchHistory()
+  public element: HTMLElement
 
+  constructor(private app: App, private domListener: DomListener, private searchHistory: SearchHistory) {
     // add global css variable
     this.createGlobalCssVariable()
 
@@ -21,16 +21,16 @@ export class SearchComponent {
     this.renderHistories(this.searchHistory.getList())
 
     this.domListener.onBackDropClick(() => {
-      this.searchJs.close()
+      this.app.close()
     })
 
-    this.domListener.OnSearch((keyword) => {
+    this.domListener.onSearch((keyword: string) => {
       if (!keyword) {
         this.showHistories()
         this.hideSearchResult()
         return
       }
-      const items = this.searchJs.config.data.filter((item) => {
+      const items = this.app.config.data.filter((item) => {
         return (
           (item.title && item.title.toLowerCase().includes(keyword)) ||
           (item.description && item.description.toLowerCase().includes(keyword))
@@ -41,11 +41,11 @@ export class SearchComponent {
     })
   }
 
-  getParentElement() {
-    return this.searchJs.config.element ?? document.body
+  private getParentElement() {
+    return this.app.config.element ?? document.body
   }
 
-  createGlobalCssVariable() {
+  private createGlobalCssVariable() {
     const bodyStyle = window.getComputedStyle(document.body)
     const fontFamily = bodyStyle.getPropertyValue('font-family')
 
@@ -53,16 +53,16 @@ export class SearchComponent {
     document.head.appendChild(style)
     style.innerHTML = `
       :root {
-        ${this.searchJs.config.darkMode ? this.getDarkThemeVariable() : this.getLightThemeVariable()}
-        --search-js-width: ${this.searchJs.config.width ?? '400px'};
-        --search-js-height: ${this.searchJs.config.height ?? '450px'};
-        --search-js-theme: ${this.searchJs.config.theme ?? '#FF2E1F'};
+        ${this.app.config.darkMode ? this.getDarkThemeVariable() : this.getLightThemeVariable()}
+        --search-js-width: ${this.app.config.width ?? '400px'};
+        --search-js-height: ${this.app.config.height ?? '450px'};
+        --search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
         --search-js-font-family: ${fontFamily};
-        --search-js-top: ${this.searchJs.config.positionTop ?? '85px'}
+        --search-js-top: ${this.app.config.positionTop ?? '85px'}
       }`
   }
 
-  getLightThemeVariable() {
+  private getLightThemeVariable() {
     return `
       --search-js-backdrop-bg: rgba(101, 108, 133, 0.8);
       --search-js-modal-bg: #f5f6f7;
@@ -78,7 +78,7 @@ export class SearchComponent {
     `
   }
 
-  getDarkThemeVariable() {
+  private getDarkThemeVariable() {
     return `
       --search-js-backdrop-bg: rgba(47, 55, 69, 0.7);
       --search-js-modal-bg: #1b1b1d;
@@ -94,7 +94,7 @@ export class SearchComponent {
     `
   }
 
-  createElement() {
+  private createElement() {
     const element = document.createElement('div')
     element.id = 'search-js'
     element.classList.add('container')
@@ -104,32 +104,32 @@ export class SearchComponent {
 
     element.innerHTML = `
       <div class="modal"> 
-        <div class="modal-header">${header.render(this.searchJs.config)}</div>
+        <div class="modal-header">${header.render(this.app.config)}</div>
         <div id="search-js-histories" class="modal-content"></div>
         <div id="search-js-result" class="modal-content"></div>
-        <div class="modal-footer">${footer.render(this.searchJs.config)}</div>
+        <div class="modal-footer">${footer.render(this.app.config)}</div>
       </div>
     `
     this.element = element
     return this.element
   }
 
-  hideHistories() {
+  private hideHistories() {
     const element = document.getElementById('search-js-histories')
     element.style.display = 'none'
   }
 
-  hideSearchResult() {
+  private hideSearchResult() {
     const element = document.getElementById('search-js-result')
     element.style.display = 'none'
   }
 
-  showHistories() {
+  private showHistories() {
     const element = document.getElementById('search-js-histories')
     element.style.display = 'block'
   }
 
-  renderHistories(items) {
+  private renderHistories(items: Array<SearchJSItem>) {
     const itemInstance = new Item()
     const element = document.getElementById('search-js-histories')
     element.innerHTML = ``
@@ -151,7 +151,7 @@ export class SearchComponent {
     this.handleItemClickListener()
   }
 
-  renderList(items) {
+  private renderList(items: Array<SearchJSItem>) {
     const itemInstance = new Item()
     const element = document.getElementById('search-js-result')
     element.innerHTML = ``
@@ -167,14 +167,14 @@ export class SearchComponent {
     this.handleItemClickListener()
   }
 
-  handleItemClickListener() {
+  private handleItemClickListener() {
     this.domListener.onItemClick(
-      (payload) => {
+      (payload: string) => {
         const data = JSON.parse(payload)
         this.searchHistory.add(data)
-        this.searchJs.config.onSelected(data)
+        this.app.config.onSelected(data)
       },
-      (payload) => {
+      (payload: string) => {
         const data = JSON.parse(payload)
         this.searchHistory.remove(data)
         this.renderHistories(this.searchHistory.getList())
