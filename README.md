@@ -11,15 +11,19 @@ Compatible with
 
 <img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo1.png" />
 
-#### Usage via cdn
+#### Install via cdn
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@bilions/search-js/dist/search-js.js"></script>
 ```
 
-#### Usage via npm
+#### Install via npm
 
 `npm install @bilions/search-js`
+
+#### Usage
+
+###### Javascript 
 
 ```js
 import SearchJS from '@bilions/search-js'
@@ -53,6 +57,41 @@ const searchJs = SearchJS({
 searchJs.open()
 ```
 
+###### Typescript 
+
+```ts
+
+import SearchJS, { SearchJSConfig, SearchJSItem } from '@bilions/search-js'
+
+const config : SearchJSConfig = {
+  data: [
+    {
+      title: 'Validation',
+      description: 'Create validation easily using validator',
+      route: '/validation',
+    },
+    {
+      title: 'Request',
+      description: 'Http request',
+      route: '/request',
+    },
+  ],
+  theme: '#FF2E1F',
+  width: '600px',
+  positionTop: '85px',
+  search: {
+    placeholder: 'Search docs'
+  },
+  onSelected: (value : SearchJSItem) => {
+    console.log(value)
+  }
+}
+
+const searchJs = SearchJS(config)
+searchJs.open()
+
+```
+
 #### Available Options
 
 | **Name**             | **Required** | **Description**                                         |
@@ -71,8 +110,9 @@ searchJs.open()
 
 #### Available functions
 
-- `open()` open function will trigger to open search menu
-- Alternatively press `cmd + k` or `ctrl + k` to open search menu
+- `open()` function will trigger to open search menu
+- `close()` function will trigger to close search menu
+- Alternatively press `cmd + k` or `ctrl + k` to open search menu and `ESC` to close menu
 
 #### Custom theme color
 

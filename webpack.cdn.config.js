@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/main.ts',
+  entry: './src/index.ts',
   output: {
     filename: 'search-js.js',
     path: path.resolve(__dirname, 'dist'),

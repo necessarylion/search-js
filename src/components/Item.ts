@@ -1,4 +1,4 @@
-import { closeIcon } from '../assets/icon'
+import { closeIcon } from '../assets/Icon'
 import { SearchJSItem } from '../types'
 
 export class Item {

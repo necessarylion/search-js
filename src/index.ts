@@ -4,12 +4,18 @@ import { SearchJSConfig } from './types'
 import { SearchComponent } from './utils/SearchComponent'
 import { SearchHistory } from './utils/SearchHistory'
 
-export class App {
-  private component : SearchComponent
-  
+export class SearchJSApp {
+  private component: SearchComponent
+
+  private static _instance: SearchJSApp
+
   constructor(public config: SearchJSConfig) {
     this.component = new SearchComponent(this, new DomListener(), new SearchHistory())
     this.listenKeyboardKeyPress()
+  }
+
+  public static getInstance(config: SearchJSConfig) {
+    return this._instance || (this._instance = new this(config))
   }
 
   public open() {
@@ -41,15 +47,16 @@ export class App {
   }
 }
 
-const SearchJS = (config: SearchJSConfig) : App => {
-  return new App(config)
+const SearchJS = (config: SearchJSConfig): SearchJSApp => {
+  return SearchJSApp.getInstance(config)
 }
 
 declare global {
   interface Window {
-    SearchJS: (config: SearchJSConfig) => App
+    SearchJS: (config: SearchJSConfig) => SearchJSApp
   }
 }
 window.SearchJS = SearchJS
 
 export default SearchJS
+export * from './types'

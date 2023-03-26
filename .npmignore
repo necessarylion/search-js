@@ -1,8 +1,5 @@
 src
-dist/index.html
-!dist/search-js.js
-!dist/index.js
-!dist/types/index.ts
+!dist
 index.html
 webpack.config.js
 webpack.cdn.config.js
