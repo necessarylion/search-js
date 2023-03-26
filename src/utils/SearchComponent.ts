@@ -10,7 +10,11 @@ import { SearchJSItem } from '../types'
 export class SearchComponent {
   public element: HTMLElement
 
-  constructor(private app: SearchJSApp, private domListener: DomListener, private searchHistory: SearchHistory) {
+  constructor(
+    private app: SearchJSApp,
+    private domListener: DomListener,
+    private searchHistory: SearchHistory,
+  ) {
     // add global css variable
     this.createGlobalCssVariable()
 
@@ -24,20 +28,26 @@ export class SearchComponent {
       this.app.close()
     })
 
-    this.domListener.onSearch((keyword: string) => {
+    this.domListener.onSearch(async (keyword: string) => {
       if (!keyword) {
         this.showHistories()
         this.hideSearchResult()
         return
       }
-      const items = this.app.config.data.filter((item) => {
-        return (
-          (item.title && item.title.toLowerCase().includes(keyword)) ||
-          (item.description && item.description.toLowerCase().includes(keyword))
-        )
-      })
-      this.hideHistories()
+      let items = this.app.config.onSearch
+        ? await this.app.config.onSearch(keyword)
+        : this.getItems(keyword)
       this.renderList(items)
+    })
+  }
+
+  private getItems(keyword: string) {
+    const items = this.app.config.data
+    return items.filter((item) => {
+      return (
+        (item.title && item.title.toLowerCase().includes(keyword)) ||
+        (item.description && item.description.toLowerCase().includes(keyword))
+      )
     })
   }
 
@@ -53,7 +63,11 @@ export class SearchComponent {
     document.head.appendChild(style)
     style.innerHTML = `
       :root {
-        ${this.app.config.darkMode ? this.getDarkThemeVariable() : this.getLightThemeVariable()}
+        ${
+          this.app.config.darkMode
+            ? this.getDarkThemeVariable()
+            : this.getLightThemeVariable()
+        }
         --search-js-width: ${this.app.config.width ?? '400px'};
         --search-js-height: ${this.app.config.height ?? '450px'};
         --search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
@@ -152,6 +166,7 @@ export class SearchComponent {
   }
 
   private renderList(items: Array<SearchJSItem>) {
+    this.hideHistories()
     const itemInstance = new Item()
     const element = document.getElementById('search-js-result')
     element.innerHTML = ``
@@ -169,13 +184,11 @@ export class SearchComponent {
 
   private handleItemClickListener() {
     this.domListener.onItemClick(
-      (payload: string) => {
-        const data = JSON.parse(payload)
+      (data: any) => {
         this.searchHistory.add(data)
         this.app.config.onSelected(data)
       },
-      (payload: string) => {
-        const data = JSON.parse(payload)
+      (data: any) => {
         this.searchHistory.remove(data)
         this.renderHistories(this.searchHistory.getList())
       },

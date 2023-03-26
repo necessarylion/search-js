@@ -6,15 +6,18 @@ export interface SearchJSItem {
 
 export interface SearchJSConfig {
   element?: HTMLElement
-  theme: string
+  theme?: string
   width?: string
   height?: string
   darkMode?: boolean
   positionTop?: string
-  data: Array<SearchJSItem>
+  data?: Array<SearchJSItem>
   search?: {
     icon?: string
     placeholder?: string
   }
+  onSearch?: (
+    keyword: string,
+  ) => Array<SearchJSItem> | Promise<Array<SearchJSItem>>
   onSelected: (data: SearchJSItem) => void
 }

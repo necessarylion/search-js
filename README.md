@@ -5,6 +5,7 @@
 Instance search UI component for any Javascript framework.
 
 Compatible with
+
 - React
 - Vue
 - Angular
@@ -23,7 +24,7 @@ Compatible with
 
 #### Usage
 
-###### Javascript 
+###### Javascript
 
 ```js
 import SearchJS from '@bilions/search-js'
@@ -52,18 +53,20 @@ const searchJs = SearchJS({
   onSelected: (i) => {
     console.log(i)
   },
+  onSearch: (keyword) => {
+    console.log(keyword)
+  },
 })
 
 searchJs.open()
 ```
 
-###### Typescript 
+###### Typescript
 
-```ts
-
+```js
 import SearchJS, { SearchJSConfig, SearchJSItem } from '@bilions/search-js'
 
-const config : SearchJSConfig = {
+const config: SearchJSConfig = {
   data: [
     {
       title: 'Validation',
@@ -80,16 +83,18 @@ const config : SearchJSConfig = {
   width: '600px',
   positionTop: '85px',
   search: {
-    placeholder: 'Search docs'
+    placeholder: 'Search docs',
   },
-  onSelected: (value : SearchJSItem) => {
+  onSelected: (value: SearchJSItem) => {
     console.log(value)
-  }
+  },
+  onSearch: (keyword) => {
+    console.log(keyword)
+  },
 }
 
 const searchJs = SearchJS(config)
 searchJs.open()
-
 ```
 
 #### Available Options
@@ -107,12 +112,40 @@ searchJs.open()
 | `search.placeholder` |      NO      | placeholder text for search input (default `Search`)    |
 | `positionTop`        |      NO      | default `85px`                                          |
 | `onSelected`         |     YES      | callback function that will trigger after item selected |
+| `onSearch`           |      NO      | this function will trigger when user type something     |
 
 #### Available functions
 
 - `open()` function will trigger to open search menu
 - `close()` function will trigger to close search menu
 - Alternatively press `cmd + k` or `ctrl + k` to open search menu and `ESC` to close menu
+
+#### Sample code with API call
+
+```js
+async function getFromApi(keyword = '') {
+  let res = await fetch('https://dummyjson.com/products/search?q=' + keyword)
+  let json = await res.json()
+  return json.products
+}
+
+const searchJs = SearchJS({
+  theme: '#FF2E1F',
+  width: '600px',
+  darkMode: false,
+  positionTop: '50px',
+  data: [],
+  search: {
+    placeholder: 'Search products',
+  },
+  onSelected: (route) => {
+    console.log(route)
+  },
+  onSearch: (keyword) => {
+    return getFromApi(keyword)
+  },
+})
+```
 
 #### Custom theme color
 
@@ -124,10 +157,11 @@ Override below css variables for custom theme color.
 root {
   --search-js-backdrop-bg: rgba(101, 108, 133, 0.8);
   --search-js-modal-bg: #f5f6f7;
-  --search-js-modal-box-shadow: inset 1px 1px 0 0 hsla(0, 0%, 100%, 0.5), 0 3px 8px 0 #555a64;
+  --search-js-modal-box-shadow: inset 1px 1px 0 0 hsla(0, 0%, 100%, 0.5), 0 3px
+      8px 0 #555a64;
   --search-js-modal-footer-box-shadow: 0 -1px 0 0 #e0e3e8, 0 -3px 6px 0 rgba(69, 98, 155, 0.12);
-  --search-js-keyboard-button-box-shadow: inset 0 -2px 0 0 #cdcde6, inset 0 0 1px 1px #fff,
-    0 1px 2px 1px rgba(30, 35, 90, 0.4);
+  --search-js-keyboard-button-box-shadow: inset 0 -2px 0 0 #cdcde6, inset 0 0
+      1px 1px #fff, 0 1px 2px 1px rgba(30, 35, 90, 0.4);
   --search-js-keyboard-button-bg: linear-gradient(-225deg, #d5dbe4, #f8f8f8);
   --search-js-search-input-bg: white;
   --search-js-item-bg: white;
@@ -144,9 +178,10 @@ root {
   --search-js-backdrop-bg: rgba(47, 55, 69, 0.7);
   --search-js-modal-bg: #1b1b1d;
   --search-js-modal-box-shadow: inset 1px 1px 0 0 #2c2e40, 0 3px 8px 0 #000309;
-  --search-js-modal-footer-box-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5), 0 -4px 8px 0 rgba(0, 0, 0, 0.2);
-  --search-js-keyboard-button-box-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d,
-    0 2px 2px 0 rgba(3, 4, 9, 0.3);
+  --search-js-modal-footer-box-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5), 0 -4px
+      8px 0 rgba(0, 0, 0, 0.2);
+  --search-js-keyboard-button-box-shadow: inset 0 -2px 0 0 #282d55, inset 0 0
+      1px 1px #51577d, 0 2px 2px 0 rgba(3, 4, 9, 0.3);
   --search-js-keyboard-button-bg: linear-gradient(
     -26.5deg,
     var(--ifm-color-emphasis-200) 0%,
