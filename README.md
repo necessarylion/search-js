@@ -146,7 +146,7 @@ const searchJs = SearchJS({
 | `data.title`         |     YES      | data title                                                          |
 | `data.description`   |      NO      | data description                                                    |
 | `element`            |      NO      | element to append search-js                                         |
-| `theme`              |      NO      | color code or theme name ('#FF2E1F', 'github-light', 'github-dark') |
+| `theme`              |      NO      | color code or theme name (`#FF2E1F`, `github-light`, `github-dark`) |
 | `darkMode`           |      NO      | default `false`. set `true` for dark mode                           |
 | `width`              |      NO      | modal width default (400px)                                         |
 | `search`             |              |                                                                     |
