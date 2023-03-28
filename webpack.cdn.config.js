@@ -1,5 +1,7 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const pkg = require('./package.json')
 
 module.exports = {
   mode: 'production',
@@ -8,14 +10,28 @@ module.exports = {
     filename: 'search-js.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            preamble: `/* Search JS | Version : ${pkg.version} | Date : ${new Date().toUTCString()} */`,
+            comments: false
+          }
+        },
+        extractComments: false,
+      }),
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
-    })
+      template: './index.html',
+    }),
   ],
   devServer: {
     port: 3000,
-    open: true
+    open: true,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
