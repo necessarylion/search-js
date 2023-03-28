@@ -80,22 +80,21 @@ export class SearchComponent {
     document.head.appendChild(style)
     style.innerHTML = `
       :root {
-        ${
-          this.app.config.darkMode
-            ? Theme.getDarkThemeVariable()
-            : Theme.getLightThemeVariable()
-        }
         --search-js-width: ${this.app.config.width ?? '400px'};
         --search-js-height: ${this.app.config.height ?? '450px'};
         --search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
         --search-js-font-family: ${fontFamily};
-        --search-js-top: ${this.app.config.positionTop ?? '85px'}
+        --search-js-top: ${this.app.config.positionTop ?? '85px'};
+        ${Theme.getTheme(this.app.config)}
       }`
   }
 
   private createElement() {
     const element = document.createElement('div')
     element.id = 'search-js'
+    if (Theme.readyMadeThemes.includes(this.app.config.theme)) {
+      element.classList.add(this.app.config.theme)
+    }
     element.classList.add('container')
 
     const footer = new Footer()

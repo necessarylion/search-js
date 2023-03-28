@@ -1,0 +1,82 @@
+#search-js.github-dark.container {
+  .modal {
+    border: 1px solid #30363d;
+
+    .modal-header {
+      padding: 0px;
+      border-bottom: 1px solid #30363d;
+
+      .search-container {
+        .search-icon {
+          width: 50px;
+          svg {
+            fill: var(--search-js-input-placeholder-color);
+          }
+        }
+      }
+    }
+
+    .modal-content {
+      .items {
+        .item:hover {
+          background: #161b22;
+        }
+      }
+    }
+
+    .modal-footer {
+      .keyboard-button {
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 0px 2px;
+      }
+    }
+  }
+}
+
+#search-js.github-light.container {
+  .modal {
+    border: 1px solid #d0d7de;
+
+    .modal-header {
+      padding: 0px;
+      border-bottom: 1px solid #d0d7de;
+
+      .search-container {
+        .search-icon {
+          width: 50px;
+          svg {
+            fill: var(--search-js-input-placeholder-color);
+          }
+        }
+      }
+    }
+
+    .modal-content {
+      .items {
+        .item:hover {
+          background: #f6f8fa;
+
+          svg path {
+            stroke: var(--search-js-text-color) !important;
+          }
+
+          .item-title {
+            color: var(--search-js-text-color);
+          }
+          .item-description {
+            color: var(--search-js-text-color);
+          }
+        }
+      }
+    }
+
+    .modal-footer {
+      .keyboard-button {
+        border: 1px solid #d0d7de;
+        border-radius: 4px;
+        padding: 0px 2px;
+      }
+    }
+  }
+}
