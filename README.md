@@ -10,6 +10,22 @@ Compatible with
 - Vue
 - Angular
 
+### Contents
+
+- [Installation](#installation)
+  - [Via cdn](#install-via-cdn)
+  - [Via npm](#install-via-npm)
+- [Usage](#usage)
+  - [Javascript](#javascript)
+  - [Typescript](#typescript)
+  - [Usage with API](#usage-with-api-call)
+- [Options](#available-options)
+- [Functions](#available-functions)
+- [Theme](#theme)
+  - [Custom Theme](#custom-theme-color)
+
+### Installation
+
 #### Install via cdn
 
 ```html
@@ -95,6 +111,33 @@ const searchJs = SearchJS(config)
 searchJs.open()
 ```
 
+#### Usage with API call
+
+```js
+async function getFromApi(keyword = '') {
+  let res = await fetch('https://dummyjson.com/products/search?q=' + keyword)
+  let json = await res.json()
+  return json.products
+}
+
+const searchJs = SearchJS({
+  theme: '#FF2E1F',
+  width: '600px',
+  darkMode: false,
+  positionTop: '50px',
+  data: [],
+  search: {
+    placeholder: 'Search products',
+  },
+  onSelected: (route) => {
+    console.log(route)
+  },
+  onSearch: (keyword) => {
+    return getFromApi(keyword)
+  },
+})
+```
+
 #### Available Options
 
 | **Name**             | **Required** | **Description**                                                     |
@@ -137,33 +180,6 @@ searchJs.open()
 
 ##### Dark Theme with color code
 <img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/light-theme.png" />
-
-#### Sample code with API call
-
-```js
-async function getFromApi(keyword = '') {
-  let res = await fetch('https://dummyjson.com/products/search?q=' + keyword)
-  let json = await res.json()
-  return json.products
-}
-
-const searchJs = SearchJS({
-  theme: '#FF2E1F',
-  width: '600px',
-  darkMode: false,
-  positionTop: '50px',
-  data: [],
-  search: {
-    placeholder: 'Search products',
-  },
-  onSelected: (route) => {
-    console.log(route)
-  },
-  onSearch: (keyword) => {
-    return getFromApi(keyword)
-  },
-})
-```
 
 #### Custom theme color
 
