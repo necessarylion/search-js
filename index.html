@@ -10,6 +10,7 @@
     <style>
       body {
         font-family: 'Source Sans Pro', sans-serif;
+        background-color: #424243;
       }
     </style>
   </head>
@@ -24,13 +25,12 @@
     }
 
     const searchJs = SearchJS({
-      theme: '#FF2E1F',
+      theme: 'github-dark',
       width: '600px',
-      darkMode: true,
       positionTop: '50px',
       data: [],
       search : {
-        placeholder: 'Search docs'
+        placeholder: 'Search products'
       },
       onSelected : (route) => {
         console.log(route)

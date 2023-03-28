@@ -10,8 +10,6 @@ Compatible with
 - Vue
 - Angular
 
-<img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/demo1.png" />
-
 #### Install via cdn
 
 ```html
@@ -99,26 +97,46 @@ searchJs.open()
 
 #### Available Options
 
-| **Name**             | **Required** | **Description**                                         |
-| -------------------- | :----------: | ------------------------------------------------------- |
-| `data`               |     YES      | data to search                                          |
-| `data.title`         |     YES      | data title                                              |
-| `data.description`   |      NO      | data description                                        |
-| `element`            |      NO      | element to append search-js                             |
-| `darkMode`           |      NO      | default `false`. set `true` for dark mode               |
-| `width`              |      NO      | modal width default (400px)                             |
-| `search`             |              |                                                         |
-| `search.icon`        |      NO      | svg icon string for search input                        |
-| `search.placeholder` |      NO      | placeholder text for search input (default `Search`)    |
-| `positionTop`        |      NO      | default `85px`                                          |
-| `onSelected`         |     YES      | callback function that will trigger after item selected |
-| `onSearch`           |      NO      | this function will trigger when user type something     |
+| **Name**             | **Required** | **Description**                                                     |
+| -------------------- | :----------: | ------------------------------------------------------------------- |
+| `data`               |     YES      | data to search                                                      |
+| `data.title`         |     YES      | data title                                                          |
+| `data.description`   |      NO      | data description                                                    |
+| `element`            |      NO      | element to append search-js                                         |
+| `theme`              |      NO      | color code or theme name ('#FF2E1F', 'github-light', 'github-dark') |
+| `darkMode`           |      NO      | default `false`. set `true` for dark mode                           |
+| `width`              |      NO      | modal width default (400px)                                         |
+| `search`             |              |                                                                     |
+| `search.icon`        |      NO      | svg icon string for search input                                    |
+| `search.placeholder` |      NO      | placeholder text for search input (default `Search`)                |
+| `positionTop`        |      NO      | default `85px`                                                      |
+| `onSelected`         |     YES      | callback function that will trigger after item selected             |
+| `onSearch`           |      NO      | this function will trigger when user type something                 |
 
 #### Available functions
 
 - `open()` function will trigger to open search menu
 - `close()` function will trigger to close search menu
 - Alternatively press `cmd + k` or `ctrl + k` to open search menu and `ESC` to close menu
+
+#### Theme
+
+#### Available ready made theme
+
+- `github-dark`
+- `github-light`
+
+##### Github Dark (github-dark)
+<img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/github-dark.png" />
+
+##### Github Light (github-light)
+<img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/github-light.png" />
+
+##### Light Theme with color code
+<img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/dark-theme.png" />
+
+##### Dark Theme with color code
+<img width="350" src="https://raw.githubusercontent.com/necessarylion/search-js/main/demo/light-theme.png" />
 
 #### Sample code with API call
 
