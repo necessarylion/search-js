@@ -7,13 +7,42 @@ import { SearchHistory } from './SearchHistory'
 import { SearchJSApp } from '..'
 import { SearchJSItem, SearchJSTheme } from '../types'
 import { Theme } from '../themes'
-import { CONTAINER_CLASS, ID } from '../constant'
+import {
+  CLASS_CONTAINER,
+  ID,
+  CLASS_ITEMS,
+  CLASS_MODAL,
+  ID_HISTORIES,
+  ID_LOADING,
+  ID_RESULTS,
+  CLASS_MODAL_HEADER,
+  CLASS_MODAL_FOOTER,
+  CLASS_MODAL_CONTENT,
+} from '../constant'
 
 export class SearchComponent {
+  /**
+   * the entire search js element
+   *
+   * @var {HTMLElement} element
+   */
   public element: HTMLElement
 
+  /**
+   * timer placeholder to handle search
+   *
+   * @var {number} searchTimer
+   */
   private searchTimer?: number
 
+  /**
+   * class constructor
+   *
+   * @param {SearchJSApp} app
+   * @param {DomListener} domListener
+   * @param {SearchHistory} searchHistory
+   * @param {Theme} theme
+   */
   constructor(
     private app: SearchJSApp,
     private domListener: DomListener,
@@ -21,7 +50,7 @@ export class SearchComponent {
     private theme: Theme,
   ) {
     // add global css variable
-    this.createGlobalCssVariable()
+    this.theme.createGlobalCssVariable(this.app.config)
 
     // append search element on parent element
     this.getParentElement().appendChild(this.createElement())
@@ -36,7 +65,12 @@ export class SearchComponent {
     this.handleOnSearch()
   }
 
-  private handleOnSearch() {
+  /**
+   * handle search and show list on result
+   *
+   * @returns {void}
+   */
+  private handleOnSearch(): void {
     this.domListener.onSearch(async (keyword: string) => {
       if (!keyword) {
         this.hideLoading()
@@ -60,7 +94,13 @@ export class SearchComponent {
     })
   }
 
-  private getItems(keyword: string) {
+  /**
+   * get list of items from config and filter with keyword from search input
+   *
+   * @param {string} keyword
+   * @returns {Array<SearchJSItem> | null | undefined}
+   */
+  private getItems(keyword: string): Array<SearchJSItem> | null | undefined {
     const items = this.app.config.data
     return items.filter((item) => {
       return (
@@ -70,25 +110,13 @@ export class SearchComponent {
     })
   }
 
-  private getParentElement() {
+  /**
+   * get parent element to append search-js element
+   *
+   * @returns {HTMLElement}
+   */
+  private getParentElement(): HTMLElement {
     return this.app.config.element ?? document.body
-  }
-
-  private createGlobalCssVariable() {
-    const bodyStyle = window.getComputedStyle(document.body)
-    const fontFamily = bodyStyle.getPropertyValue('font-family')
-
-    const style = document.createElement('style')
-    document.head.appendChild(style)
-    style.innerHTML = `
-:root {
---search-js-width: ${this.app.config.width ?? '400px'};
---search-js-height: ${this.app.config.height ?? '450px'};
---search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
---search-js-font-family: ${fontFamily};
---search-js-top: ${this.app.config.positionTop ?? '85px'};
-${this.theme.getTheme(this.app.config)}
-}`
   }
 
   private createElement() {
@@ -97,17 +125,17 @@ ${this.theme.getTheme(this.app.config)}
     if (this.theme.getReadyMadeThemes().includes(this.app.config.theme as SearchJSTheme)) {
       element.classList.add(this.app.config.theme)
     }
-    element.classList.add(CONTAINER_CLASS)
+    element.classList.add(CLASS_CONTAINER)
 
     const footer = new Footer()
     const header = new Header()
 
-    element.innerHTML = `<div class="modal"> 
-<div class="modal-header">${header.render(this.app.config)}</div>
-<div id="search-js-loading" class="modal-content">${loadingIcon()}</div>
-<div id="search-js-histories" class="modal-content"></div>
-<div id="search-js-result" class="modal-content"></div>
-<div class="modal-footer">${footer.render(this.app.config)}</div>
+    element.innerHTML = `<div class="${CLASS_MODAL}"> 
+<div class="${CLASS_MODAL_HEADER}">${header.render(this.app.config)}</div>
+<div id="${ID_LOADING}" class="${CLASS_MODAL_CONTENT}">${loadingIcon()}</div>
+<div id="${ID_HISTORIES}" class="${CLASS_MODAL_CONTENT}"></div>
+<div id="${ID_RESULTS}" class="${CLASS_MODAL_CONTENT}"></div>
+<div class="${CLASS_MODAL_FOOTER}">${footer.render(this.app.config)}</div>
 </div>
 `
     this.element = element
@@ -115,39 +143,43 @@ ${this.theme.getTheme(this.app.config)}
   }
 
   private hideHistories() {
-    document.getElementById('search-js-histories').style.display = 'none'
+    document.getElementById(ID_HISTORIES).style.display = 'none'
   }
 
   private showLoading() {
-    document.getElementById('search-js-loading').style.display = 'flex'
+    document.getElementById(ID_LOADING).style.display = 'flex'
   }
 
   private hideLoading() {
-    document.getElementById('search-js-loading').style.display = 'none'
+    document.getElementById(ID_LOADING).style.display = 'none'
   }
 
   private hideSearchResult() {
-    document.getElementById('search-js-result').style.display = 'none'
+    document.getElementById(ID_RESULTS).style.display = 'none'
   }
 
   private showHistories() {
     this.renderHistories(this.searchHistory.getList())
-    document.getElementById('search-js-histories').style.display = 'block'
+    document.getElementById(ID_HISTORIES).style.display = 'block'
   }
 
   private renderHistories(items: Array<SearchJSItem>) {
     const itemInstance = new Item()
-    const element = document.getElementById('search-js-histories')
+    const element = document.getElementById(ID_HISTORIES)
     element.innerHTML = ``
 
-    let html = '<div class="items">'
+    let html = `<div class="${CLASS_ITEMS}">`
 
     if (items.length == 0) {
       html += `<div class="no-recent">No recent searches</div>`
     }
 
     items.forEach((item) => {
-      html += itemInstance.render(item, historyIcon())
+      html += itemInstance.render({
+        item,
+        icon: historyIcon(),
+        hideRemoveButton: false,
+      })
     })
 
     html += '</div>'
@@ -158,12 +190,16 @@ ${this.theme.getTheme(this.app.config)}
   private renderList(items: Array<SearchJSItem>) {
     this.hideHistories()
     const itemInstance = new Item()
-    const element = document.getElementById('search-js-result')
+    const element = document.getElementById(ID_RESULTS)
     element.innerHTML = ``
 
-    let html = '<div class="items">'
+    let html = `<div class="${CLASS_ITEMS}">`
     items.forEach((item) => {
-      html += itemInstance.render(item, hashIcon(), true)
+      html += itemInstance.render({
+        item,
+        icon: hashIcon(),
+        hideRemoveButton: true,
+      })
     })
 
     html += '</div>'

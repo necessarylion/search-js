@@ -1,10 +1,16 @@
 import { SearchJSConfig } from '../types'
 import { clearIcon, searchIcon } from '../assets/Icon'
-import { CLEAR_ICON_CLASS, INPUT_CLASS } from '../constant'
+import { CLASS_CLEAR_ICON, CLASS_INPUT, DEFAULT_THEME_COLOR } from '../constant'
 
 export class Header {
-  render(config: SearchJSConfig) {
-    let icon = searchIcon(config.theme ?? '#FF2E1F')
+  /**
+   * render header html string
+   *
+   * @param {SearchJSConfig} config
+   * @returns {string}
+   */
+  render(config: SearchJSConfig): string {
+    let icon = searchIcon(config.theme ?? DEFAULT_THEME_COLOR)
     let placeholder = 'Search'
 
     if (config.search?.icon) {
@@ -17,8 +23,8 @@ export class Header {
 
     return `<div class="search-container">
 <div class="search-icon">${icon}</div>
-<input placeholder="${placeholder}" class="${INPUT_CLASS}" type="text"/>
-<div class="${CLEAR_ICON_CLASS}">${clearIcon()}</div>
+<input placeholder="${placeholder}" class="${CLASS_INPUT}" type="text"/>
+<div class="${CLASS_CLEAR_ICON}">${clearIcon()}</div>
 </div>`
   }
 }
