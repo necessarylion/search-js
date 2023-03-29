@@ -1,5 +1,5 @@
 import { SearchJSConfig } from '../types'
-import { searchIcon } from '../assets/Icon'
+import { clearIcon, searchIcon } from '../assets/Icon'
 
 export class Header {
   render(config: SearchJSConfig) {
@@ -20,6 +20,9 @@ export class Header {
         ${icon}
       </div>
       <input placeholder="${placeholder}" class="search-input" type="text"/>
+      <div class="clear-icon">
+        ${clearIcon()}
+      </div>
     </div>`
   }
 }
