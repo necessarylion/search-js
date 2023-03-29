@@ -1,0 +1,7 @@
+export const ID: string = 'search-js'
+export const CONTAINER_CLASS: string = 'container'
+export const CLEAR_ICON_CLASS: string = 'clear-icon'
+export const INPUT_CLASS: string = 'search-input'
+export const ITEM_CLASS: string = 'item'
+export const ITEM_CLOSE_CLASS: string = 'item-close'
+export const DATA_PAYLOAD_ATTR: string = 'data-payload'

@@ -5,8 +5,9 @@ import { Item } from '../components/Item'
 import { DomListener } from './DomListener'
 import { SearchHistory } from './SearchHistory'
 import { SearchJSApp } from '..'
-import { SearchJSItem } from '../types'
-import { Theme } from './Theme'
+import { SearchJSItem, SearchJSTheme } from '../types'
+import { Theme } from '../themes'
+import { CONTAINER_CLASS, ID } from '../constant'
 
 export class SearchComponent {
   public element: HTMLElement
@@ -17,6 +18,7 @@ export class SearchComponent {
     private app: SearchJSApp,
     private domListener: DomListener,
     private searchHistory: SearchHistory,
+    private theme: Theme,
   ) {
     // add global css variable
     this.createGlobalCssVariable()
@@ -79,36 +81,35 @@ export class SearchComponent {
     const style = document.createElement('style')
     document.head.appendChild(style)
     style.innerHTML = `
-      :root {
-        --search-js-width: ${this.app.config.width ?? '400px'};
-        --search-js-height: ${this.app.config.height ?? '450px'};
-        --search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
-        --search-js-font-family: ${fontFamily};
-        --search-js-top: ${this.app.config.positionTop ?? '85px'};
-        ${Theme.getTheme(this.app.config)}
-      }`
+:root {
+--search-js-width: ${this.app.config.width ?? '400px'};
+--search-js-height: ${this.app.config.height ?? '450px'};
+--search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
+--search-js-font-family: ${fontFamily};
+--search-js-top: ${this.app.config.positionTop ?? '85px'};
+${this.theme.getTheme(this.app.config)}
+}`
   }
 
   private createElement() {
     const element = document.createElement('div')
-    element.id = 'search-js'
-    if (Theme.readyMadeThemes.includes(this.app.config.theme)) {
+    element.id = ID
+    if (this.theme.getReadyMadeThemes().includes(this.app.config.theme as SearchJSTheme)) {
       element.classList.add(this.app.config.theme)
     }
-    element.classList.add('container')
+    element.classList.add(CONTAINER_CLASS)
 
     const footer = new Footer()
     const header = new Header()
 
-    element.innerHTML = `
-      <div class="modal"> 
-        <div class="modal-header">${header.render(this.app.config)}</div>
-        <div id="search-js-loading" class="modal-content">${loadingIcon()}</div>
-        <div id="search-js-histories" class="modal-content"></div>
-        <div id="search-js-result" class="modal-content"></div>
-        <div class="modal-footer">${footer.render(this.app.config)}</div>
-      </div>
-    `
+    element.innerHTML = `<div class="modal"> 
+<div class="modal-header">${header.render(this.app.config)}</div>
+<div id="search-js-loading" class="modal-content">${loadingIcon()}</div>
+<div id="search-js-histories" class="modal-content"></div>
+<div id="search-js-result" class="modal-content"></div>
+<div class="modal-footer">${footer.render(this.app.config)}</div>
+</div>
+`
     this.element = element
     return this.element
   }
@@ -142,9 +143,7 @@ export class SearchComponent {
     let html = '<div class="items">'
 
     if (items.length == 0) {
-      html += `
-      <div class="no-recent">No recent searches</div>
-      `
+      html += `<div class="no-recent">No recent searches</div>`
     }
 
     items.forEach((item) => {
