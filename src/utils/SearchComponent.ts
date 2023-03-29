@@ -130,6 +130,7 @@ export class SearchComponent {
   }
 
   private showHistories() {
+    this.renderHistories(this.searchHistory.getList())
     document.getElementById('search-js-histories').style.display = 'block'
   }
 

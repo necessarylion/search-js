@@ -9,10 +9,17 @@ export class DomListener {
   }
 
   public onSearch(callback: Function) {
-    const element = document.querySelector('#search-js .search-input')
+    const element: HTMLInputElement = document.querySelector(
+      '#search-js .search-input',
+    )
     element.addEventListener('keyup', (event: any) => {
       const keyword = event.target.value.toLowerCase()
       callback(keyword)
+    })
+
+    document.querySelector('.clear-icon').addEventListener('click', (event) => {
+      element.value = ''
+      callback(null)
     })
   }
 
