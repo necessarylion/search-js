@@ -17,8 +17,8 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx,json}": [
-      "eslint ./src/**/*.ts --fix",
-      "prettier --write \"src/**/*.ts\""
+      "npm run lint",
+      "npm run format"
     ]
   },
   "repository": {
