@@ -1,48 +1,94 @@
+import {
+  CLASS_CLEAR_ICON,
+  CLASS_CONTAINER,
+  ATTR_DATA_PAYLOAD,
+  ID,
+  CLASS_INPUT,
+  CLASS_ITEM,
+  CLASS_ITEM_CLOSE,
+} from '../constant'
+import { SearchJSItem } from '../types'
+import { Encoder } from './Encoder'
+
 export class DomListener {
-  public onBackDropClick(callback: Function) {
-    const element = document.querySelector('#search-js.container')
-    element.addEventListener('click', (event) => {
+  /**
+   * @var {string} EVENT_CLICK
+   */
+  private EVENT_CLICK = 'click'
+
+  /**
+   * @var {string} EVENT_KEYUP
+   */
+  private EVENT_KEYUP = 'keyup'
+
+  /**
+   * listen for on back drop click to hide modal
+   *
+   * @param {Function} callback
+   * @returns {void}
+   */
+  public onBackDropClick(callback: () => void): void {
+    const element = document.querySelector(`#${ID}.${CLASS_CONTAINER}`)
+    element.addEventListener(this.EVENT_CLICK, (event) => {
       if (event.target === element) {
         callback()
       }
     })
   }
 
-  public onSearch(callback: Function) {
-    const element: HTMLInputElement = document.querySelector(
-      '#search-js .search-input',
-    )
-    element.addEventListener('keyup', (event: any) => {
+  /**
+   * listen for on search
+   *
+   * @param {Function} callback
+   * @returns {void}
+   */
+  public onSearch(callback: (keyword: string) => void): void {
+    const element: HTMLInputElement = document.querySelector(`#${ID} .${CLASS_INPUT}`)
+    // search input keyup
+    element.addEventListener(this.EVENT_KEYUP, (event: any) => {
       const keyword = event.target.value.toLowerCase()
       callback(keyword)
     })
 
-    document.querySelector('.clear-icon').addEventListener('click', (event) => {
+    // clear icon
+    document.querySelector(`.${CLASS_CLEAR_ICON}`).addEventListener(this.EVENT_CLICK, () => {
       element.value = ''
       callback(null)
     })
   }
 
-  public onItemClick(onSelected: Function, onRemove: Function) {
-    const items = document.querySelectorAll('#search-js .item')
+  /**
+   * listen for on item click
+   *
+   * @param {Function} onSelected
+   * @param {Function} onRemove
+   * @returns {void}
+   */
+  public onItemClick(
+    onSelected: (item: SearchJSItem) => void,
+    onRemove: (item: SearchJSItem) => void,
+  ): void {
+    const items = document.querySelectorAll(`#${ID} .${CLASS_ITEM}`)
     items.forEach((el) =>
-      el.addEventListener('click', (event: any) => {
-        const closeElements = event.target.closest('.item-close *')
+      // item click to select
+      el.addEventListener(this.EVENT_CLICK, (event: any) => {
+        const closeElements = event.target.closest(`.${CLASS_ITEM_CLOSE} *`)
         if (event.target == closeElements) {
           return
         }
-        const parentElement = event.target.closest('.item')
-        const data = parentElement.getAttribute('data-payload')
-        onSelected(JSON.parse(unescape(window.atob(data))))
+        const parentElement = event.target.closest(`.${CLASS_ITEM}`)
+        const data = parentElement.getAttribute(ATTR_DATA_PAYLOAD)
+        onSelected(Encoder.decode(data))
       }),
     )
 
-    const closeItems = document.querySelectorAll('#search-js .item-close')
+    const closeItems = document.querySelectorAll(`#${ID} .${CLASS_ITEM_CLOSE}`)
     closeItems.forEach((el) =>
-      el.addEventListener('click', (event: any) => {
-        const parentElement = event.target.closest('.item-close')
-        const data = parentElement.getAttribute('data-payload')
-        onRemove(JSON.parse(unescape(window.atob(data))))
+      // item click to remove from history
+      el.addEventListener(this.EVENT_CLICK, (event: any) => {
+        const parentElement = event.target.closest(`.${CLASS_ITEM_CLOSE}`)
+        const data = parentElement.getAttribute(ATTR_DATA_PAYLOAD)
+        onRemove(Encoder.decode(data))
       }),
     )
   }

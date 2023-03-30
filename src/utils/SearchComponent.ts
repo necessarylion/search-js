@@ -5,27 +5,57 @@ import { Item } from '../components/Item'
 import { DomListener } from './DomListener'
 import { SearchHistory } from './SearchHistory'
 import { SearchJSApp } from '..'
-import { SearchJSItem } from '../types'
-import { Theme } from './Theme'
+import { SearchJSItem, SearchJSTheme } from '../types'
+import { Theme } from '../themes'
+import {
+  CLASS_CONTAINER,
+  ID,
+  CLASS_MODAL,
+  ID_HISTORIES,
+  ID_LOADING,
+  ID_RESULTS,
+  CLASS_MODAL_HEADER,
+  CLASS_MODAL_FOOTER,
+  CLASS_MODAL_CONTENT,
+} from '../constant'
 
 export class SearchComponent {
+  /**
+   * the entire search js element
+   *
+   * @var {HTMLElement} element
+   */
   public element: HTMLElement
 
+  /**
+   * timer placeholder to handle search
+   *
+   * @var {number} searchTimer
+   */
   private searchTimer?: number
 
+  /**
+   * class constructor
+   *
+   * @param {SearchJSApp} app
+   * @param {DomListener} domListener
+   * @param {SearchHistory} searchHistory
+   * @param {Theme} theme
+   */
   constructor(
     private app: SearchJSApp,
     private domListener: DomListener,
     private searchHistory: SearchHistory,
+    private theme: Theme,
   ) {
     // add global css variable
-    this.createGlobalCssVariable()
+    this.theme.createGlobalCssVariable(this.app.config)
 
     // append search element on parent element
     this.getParentElement().appendChild(this.createElement())
 
     // render initial data list
-    this.renderHistories(this.searchHistory.getList())
+    this.showHistory(this.searchHistory.getList())
 
     this.domListener.onBackDropClick(() => {
       this.app.close()
@@ -34,11 +64,17 @@ export class SearchComponent {
     this.handleOnSearch()
   }
 
-  private handleOnSearch() {
+  /**
+   * handle search and show list on result
+   *
+   * @returns {void}
+   */
+  private handleOnSearch(): void {
     this.domListener.onSearch(async (keyword: string) => {
       if (!keyword) {
+        clearTimeout(this.searchTimer)
         this.hideLoading()
-        this.showHistories()
+        this.showHistory(this.searchHistory.getList())
         this.hideSearchResult()
         return
       }
@@ -48,17 +84,23 @@ export class SearchComponent {
         this.showLoading()
         clearTimeout(this.searchTimer)
         this.searchTimer = setTimeout(async () => {
-          let items = await this.app.config.onSearch(keyword)
+          const items = await this.app.config.onSearch(keyword)
           this.hideLoading()
-          this.renderList(items)
+          this.showSearchResult(items)
         }, this.app.config.onSearchDelay ?? 500)
       } else {
-        this.renderList(this.getItems(keyword))
+        this.showSearchResult(this.getItems(keyword))
       }
     })
   }
 
-  private getItems(keyword: string) {
+  /**
+   * get list of items from config and filter with keyword from search input
+   *
+   * @param {string} keyword
+   * @returns {Array<SearchJSItem> | null | undefined}
+   */
+  private getItems(keyword: string): Array<SearchJSItem> | null | undefined {
     const items = this.app.config.data
     return items.filter((item) => {
       return (
@@ -68,112 +110,98 @@ export class SearchComponent {
     })
   }
 
-  private getParentElement() {
+  /**
+   * get parent element to append search-js element
+   *
+   * @returns {HTMLElement}
+   */
+  private getParentElement(): HTMLElement {
     return this.app.config.element ?? document.body
-  }
-
-  private createGlobalCssVariable() {
-    const bodyStyle = window.getComputedStyle(document.body)
-    const fontFamily = bodyStyle.getPropertyValue('font-family')
-
-    const style = document.createElement('style')
-    document.head.appendChild(style)
-    style.innerHTML = `
-      :root {
-        --search-js-width: ${this.app.config.width ?? '400px'};
-        --search-js-height: ${this.app.config.height ?? '450px'};
-        --search-js-theme: ${this.app.config.theme ?? '#FF2E1F'};
-        --search-js-font-family: ${fontFamily};
-        --search-js-top: ${this.app.config.positionTop ?? '85px'};
-        ${Theme.getTheme(this.app.config)}
-      }`
   }
 
   private createElement() {
     const element = document.createElement('div')
-    element.id = 'search-js'
-    if (Theme.readyMadeThemes.includes(this.app.config.theme)) {
+    element.id = ID
+    if (this.theme.getReadyMadeThemes().includes(this.app.config.theme as SearchJSTheme)) {
       element.classList.add(this.app.config.theme)
     }
-    element.classList.add('container')
+    element.classList.add(CLASS_CONTAINER)
 
     const footer = new Footer()
     const header = new Header()
 
-    element.innerHTML = `
-      <div class="modal"> 
-        <div class="modal-header">${header.render(this.app.config)}</div>
-        <div id="search-js-loading" class="modal-content">${loadingIcon()}</div>
-        <div id="search-js-histories" class="modal-content"></div>
-        <div id="search-js-result" class="modal-content"></div>
-        <div class="modal-footer">${footer.render(this.app.config)}</div>
-      </div>
-    `
+    element.innerHTML = `<div class="${CLASS_MODAL}"> 
+<div class="${CLASS_MODAL_HEADER}">${header.render(this.app.config)}</div>
+<div id="${ID_LOADING}" class="${CLASS_MODAL_CONTENT}">${loadingIcon()}</div>
+<div id="${ID_HISTORIES}" class="${CLASS_MODAL_CONTENT}"></div>
+<div id="${ID_RESULTS}" class="${CLASS_MODAL_CONTENT}"></div>
+<div class="${CLASS_MODAL_FOOTER}">${footer.render()}</div>
+</div>
+`
     this.element = element
     return this.element
   }
 
-  private hideHistories() {
-    document.getElementById('search-js-histories').style.display = 'none'
-  }
-
-  private showLoading() {
-    document.getElementById('search-js-loading').style.display = 'flex'
-  }
-
-  private hideLoading() {
-    document.getElementById('search-js-loading').style.display = 'none'
-  }
-
-  private hideSearchResult() {
-    document.getElementById('search-js-result').style.display = 'none'
-  }
-
-  private showHistories() {
-    this.renderHistories(this.searchHistory.getList())
-    document.getElementById('search-js-histories').style.display = 'block'
-  }
-
-  private renderHistories(items: Array<SearchJSItem>) {
+  /**
+   * show item lists
+   *
+   * @param {Array<SearchJSItem>} items
+   * @returns {void}
+   */
+  private showSearchResult(items: Array<SearchJSItem>): void {
     const itemInstance = new Item()
-    const element = document.getElementById('search-js-histories')
-    element.innerHTML = ``
-
-    let html = '<div class="items">'
-
-    if (items.length == 0) {
-      html += `
-      <div class="no-recent">No recent searches</div>
-      `
-    }
-
-    items.forEach((item) => {
-      html += itemInstance.render(item, historyIcon())
+    itemInstance.renderList({
+      id: ID_RESULTS,
+      items: items,
+      hideRemoveButton: true,
+      notFoundLabel: 'No match found',
+      icon: hashIcon(),
     })
-
-    html += '</div>'
-    element.innerHTML = html
     this.handleItemClickListener()
   }
 
-  private renderList(items: Array<SearchJSItem>) {
-    this.hideHistories()
+  /**
+   * hide search result
+   *
+   * @returns {void}
+   */
+  private hideSearchResult(): void {
+    document.getElementById(ID_RESULTS).style.display = 'none'
+  }
+
+  /**
+   * show history list
+   *
+   * @param {Array<SearchJSItem>} items
+   * @returns {void}
+   */
+  private showHistory(items: Array<SearchJSItem>): void {
     const itemInstance = new Item()
-    const element = document.getElementById('search-js-result')
-    element.innerHTML = ``
-
-    let html = '<div class="items">'
-    items.forEach((item) => {
-      html += itemInstance.render(item, hashIcon(), true)
+    itemInstance.renderList({
+      id: ID_HISTORIES,
+      items: items,
+      hideRemoveButton: false,
+      notFoundLabel: 'No recent data',
+      icon: historyIcon(),
     })
-
-    html += '</div>'
-    element.innerHTML = html
-    element.style.display = 'block'
     this.handleItemClickListener()
   }
 
-  private handleItemClickListener() {
+  /**
+   * hide history
+   *
+   * @returns {void}
+   */
+  private hideHistories(): void {
+    document.getElementById(ID_HISTORIES).style.display = 'none'
+  }
+
+  /**
+   * listen on select and on remove event on item
+   *
+   * @return {void}
+   */
+  private handleItemClickListener(): void {
     this.domListener.onItemClick(
       (data: any) => {
         this.searchHistory.add(data)
@@ -181,8 +209,26 @@ export class SearchComponent {
       },
       (data: any) => {
         this.searchHistory.remove(data)
-        this.renderHistories(this.searchHistory.getList())
+        this.showHistory(this.searchHistory.getList())
       },
     )
+  }
+
+  /**
+   * show loading
+   *
+   * @returns {void}
+   */
+  private showLoading(): void {
+    document.getElementById(ID_LOADING).style.display = 'flex'
+  }
+
+  /**
+   * hide loading
+   *
+   * @returns {void}
+   */
+  private hideLoading(): void {
+    document.getElementById(ID_LOADING).style.display = 'none'
   }
 }

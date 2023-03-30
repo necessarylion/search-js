@@ -1,3 +1,10 @@
+export enum SearchJSTheme {
+  ThemeGithubLight = 'github-light',
+  ThemeGithubDark = 'github-dark',
+  ThemeLight = 'light-theme',
+  ThemeDark = 'dark-theme',
+}
+
 export interface SearchJSItem {
   title: string
   description?: string
@@ -17,8 +24,6 @@ export interface SearchJSConfig {
     placeholder?: string
   }
   onSearchDelay?: number
-  onSearch?: (
-    keyword: string,
-  ) => Array<SearchJSItem> | Promise<Array<SearchJSItem>>
+  onSearch?: (keyword: string) => Array<SearchJSItem> | Promise<Array<SearchJSItem>>
   onSelected: (data: SearchJSItem) => void
 }
