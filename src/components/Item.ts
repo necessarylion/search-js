@@ -1,6 +1,6 @@
 import { Encoder } from './../utils/Encoder'
 import { closeIcon } from '../assets/Icon'
-import { ATTR_DATA_PAYLOAD, CLASS_ITEMS, CLASS_ITEM_CLOSE, ID_HISTORIES } from '../constant'
+import { ATTR_DATA_PAYLOAD, CLASS_ITEMS, CLASS_ITEM_CLOSE } from '../constant'
 import { SearchJSItem } from '../types'
 
 interface ItemComponentPayload {

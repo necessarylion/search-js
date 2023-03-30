@@ -84,7 +84,7 @@ export class SearchComponent {
         this.showLoading()
         clearTimeout(this.searchTimer)
         this.searchTimer = setTimeout(async () => {
-          let items = await this.app.config.onSearch(keyword)
+          const items = await this.app.config.onSearch(keyword)
           this.hideLoading()
           this.showSearchResult(items)
         }, this.app.config.onSearchDelay ?? 500)
@@ -135,7 +135,7 @@ export class SearchComponent {
 <div id="${ID_LOADING}" class="${CLASS_MODAL_CONTENT}">${loadingIcon()}</div>
 <div id="${ID_HISTORIES}" class="${CLASS_MODAL_CONTENT}"></div>
 <div id="${ID_RESULTS}" class="${CLASS_MODAL_CONTENT}"></div>
-<div class="${CLASS_MODAL_FOOTER}">${footer.render(this.app.config)}</div>
+<div class="${CLASS_MODAL_FOOTER}">${footer.render()}</div>
 </div>
 `
     this.element = element

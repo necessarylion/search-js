@@ -13,14 +13,14 @@ export class SearchHistory {
    *
    * @var {number} maxItems
    */
-  private maxItems: number = 4
+  private maxItems = 4
 
   /**
    * local storage key
    *
    * @var {string} storageKey
    */
-  private storageKey: string = 'search-js-histories'
+  private storageKey = 'search-js-histories'
 
   constructor() {
     this.db = window.localStorage

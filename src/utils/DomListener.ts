@@ -14,12 +14,12 @@ export class DomListener {
   /**
    * @var {string} EVENT_CLICK
    */
-  private EVENT_CLICK: string = 'click'
+  private EVENT_CLICK = 'click'
 
   /**
    * @var {string} EVENT_KEYUP
    */
-  private EVENT_KEYUP: string = 'keyup'
+  private EVENT_KEYUP = 'keyup'
 
   /**
    * listen for on back drop click to hide modal
@@ -51,7 +51,7 @@ export class DomListener {
     })
 
     // clear icon
-    document.querySelector(`.${CLASS_CLEAR_ICON}`).addEventListener(this.EVENT_CLICK, (event) => {
+    document.querySelector(`.${CLASS_CLEAR_ICON}`).addEventListener(this.EVENT_CLICK, () => {
       element.value = ''
       callback(null)
     })
