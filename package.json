@@ -1,6 +1,6 @@
 {
   "name": "@bilions/search-js",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Instance search UI component",
   "main": "dist/index.js",
   "scripts": {
@@ -31,6 +31,7 @@
     "search",
     "algolia",
     "search",
+    "searchjs",
     "ui"
   ],
   "author": "AJ",
