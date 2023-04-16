@@ -226,5 +226,7 @@ root {
   --search-js-item-box-shadow: none;
 }
 ```
+### Development
+Want to contribute? Great! Fork the repo and create PR to us.
 
 Inspired by algolia
