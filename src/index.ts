@@ -107,7 +107,10 @@ declare global {
     SearchJS: (config: SearchJSConfig) => SearchJSApp
   }
 }
-window.SearchJS = SearchJS
+
+if (typeof window !== 'undefined') {
+  window.SearchJS = SearchJS
+}
 
 export default SearchJS
 export * from './types'

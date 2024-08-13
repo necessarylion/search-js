@@ -117,7 +117,10 @@ searchJs.open()
 async function getFromApi(keyword = '') {
   let res = await fetch('https://dummyjson.com/products/search?q=' + keyword)
   let json = await res.json()
-  return json.products
+  return json.products.map((p) => {
+    p.icon = `<img class="product-image" src="${p.thumbnail}" />`
+    return p
+  })
 }
 
 const searchJs = SearchJS({
@@ -145,6 +148,7 @@ const searchJs = SearchJS({
 | `data`               |     YES      | data to search                                                      |
 | `data.title`         |     YES      | data title                                                          |
 | `data.description`   |      NO      | data description                                                    |
+| `data.icon`          |      NO      | data icon (can use html string, svg string etc...)                                                    |
 | `element`            |      NO      | element to append search-js                                         |
 | `theme`              |      NO      | color code or theme name (`#FF2E1F`, `github-light`, `github-dark`) |
 | `darkMode`           |      NO      | default `false`. set `true` for dark mode                           |

@@ -12,6 +12,13 @@
         font-family: 'Source Sans Pro', sans-serif;
         background-color: #424243;
       }
+      .product-image {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        background: #ededed;
+        border-radius: 5px;
+      }
     </style>
   </head>
   <body>
@@ -21,7 +28,10 @@
     async function getFromApi(keyword = '') {
       let res = await fetch('https://dummyjson.com/products/search?q='+keyword)
       let json = await res.json()
-      return json.products
+      return json.products.map((p) => {
+        p.icon = `<img class="product-image" src="${p.thumbnail}" />`
+        return p
+      })
     }
 
     const searchJs = SearchJS({

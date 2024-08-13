@@ -55,7 +55,7 @@ export class Item {
   render({ item, icon, hideRemoveButton = false }: ItemComponentPayload): string {
     const dataPayload = Encoder.encode(item)
     return `<div class="item" ${ATTR_DATA_PAYLOAD}='${dataPayload}'>
-<div class="item-icon">${icon}</div>
+<div class="item-icon">${item.icon ?? icon}</div>
 <div style="flex: 1">
 <div class="item-title">${item.title}</div>
 ${item.description ? `<div class="item-description">${item.description}</div>` : ``}
