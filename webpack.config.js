@@ -13,9 +13,6 @@ module.exports = {
     libraryTarget: 'module'
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
