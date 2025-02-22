@@ -58,7 +58,9 @@ export class SearchComponent {
     this.showHistory(this.searchHistory.getList())
 
     this.domListener.onBackDropClick(() => {
-      this.app.close()
+      if (!this.app.config.persistent) {
+        this.app.close()
+      }
     })
 
     this.handleOnSearch()

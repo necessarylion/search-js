@@ -64,6 +64,12 @@ export interface SearchJSConfig {
   onSearchDelay?: number
 
   /**
+   * model persistent
+   * default - false
+   */
+  persistent?: boolean
+
+  /**
    * handle on search input
    * @param keyword
    * @returns Array<SearchJSItem> | Promise<Array<SearchJSItem>>
