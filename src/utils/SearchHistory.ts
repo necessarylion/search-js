@@ -9,20 +9,17 @@ export class SearchHistory {
   private db: Storage
 
   /**
-   * max items to store in history
-   *
-   * @var {number} maxItems
-   */
-  private maxItems = 4
-
-  /**
    * local storage key
    *
    * @var {string} storageKey
    */
   private storageKey = 'search-js-histories'
 
-  constructor() {
+  /**
+   * constructor
+   * @param {number} maxItems - max items to store in history
+   */
+  constructor(private maxItems: number) {
     this.db = window.localStorage
   }
 
@@ -36,7 +33,7 @@ export class SearchHistory {
     if (!data) {
       data = '[]'
     }
-    return JSON.parse(data).reverse()
+    return JSON.parse(data).reverse().slice(0, this.maxItems)
   }
 
   /**
@@ -63,6 +60,8 @@ export class SearchHistory {
     const index = arrayItems.findIndex((d: SearchJSItem) => {
       return JSON.stringify(d) == JSON.stringify(item)
     })
+
+    console.log(index)
 
     if (index != -1) {
       arrayItems.splice(index, 1)

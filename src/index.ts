@@ -27,7 +27,12 @@ export class SearchJSApp {
    * @param {SearchJSConfig} config
    */
   constructor(public config: SearchJSConfig) {
-    this.component = new SearchComponent(this, new DomListener(), new SearchHistory(), new Theme())
+    this.component = new SearchComponent(
+      this,
+      new DomListener(),
+      new SearchHistory(this.config.maxHistoryLength ?? 4),
+      new Theme(),
+    )
     this.listenKeyboardKeyPress()
   }
 

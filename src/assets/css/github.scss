@@ -57,7 +57,7 @@
         .item:hover {
           background: #f6f8fa;
 
-          svg path {
+          .item-close svg path {
             stroke: var(--search-js-text-color) !important;
           }
 

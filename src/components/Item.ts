@@ -7,6 +7,7 @@ interface ItemComponentPayload {
   item: SearchJSItem
   icon: string
   hideRemoveButton: boolean
+  isHistoryIcon?: boolean
 }
 
 export interface ListRenderPayload {
@@ -15,6 +16,7 @@ export interface ListRenderPayload {
   icon: string
   hideRemoveButton: boolean
   notFoundLabel: string
+  isHistoryIcon?: boolean
 }
 
 export class Item {
@@ -24,7 +26,14 @@ export class Item {
    * @param {Array<SearchJSItem>} items
    * @returns {void}
    */
-  public renderList({ id, items, hideRemoveButton, notFoundLabel, icon }: ListRenderPayload): void {
+  public renderList({
+    id,
+    items,
+    hideRemoveButton,
+    notFoundLabel,
+    icon,
+    isHistoryIcon,
+  }: ListRenderPayload): void {
     const element = document.getElementById(id)
     element.innerHTML = ``
 
@@ -39,6 +48,7 @@ export class Item {
         item,
         icon,
         hideRemoveButton,
+        isHistoryIcon,
       })
     })
 
@@ -52,10 +62,14 @@ export class Item {
    * @param {ItemComponentPayload} props
    * @returns {string}
    */
-  render({ item, icon, hideRemoveButton = false }: ItemComponentPayload): string {
+  render({ item, icon, hideRemoveButton = false, isHistoryIcon }: ItemComponentPayload): string {
     const dataPayload = Encoder.encode(item)
     return `<div class="item" ${ATTR_DATA_PAYLOAD}='${dataPayload}'>
-<div class="item-icon">${item.icon ?? icon}</div>
+<div class="item-icon">
+${item.icon ?? icon}
+${item.icon && isHistoryIcon ? `<div class="floating-history-icon">${icon}</div>` : ``}
+</div>
+
 <div style="flex: 1">
 <div class="item-title">${item.title}</div>
 ${item.description ? `<div class="item-description">${item.description}</div>` : ``}

@@ -16,6 +16,7 @@ export const CssWidth = '--search-js-width'
 export const CssHeight = '--search-js-height'
 export const CssFontFamily = '--search-js-font-family'
 export const CssPositionTop = '--search-js-top'
+export const CssBorderColor = '--search-js-border-color'
 
 export const AvailableThemes: any = {
   [SearchJSTheme.ThemeDark]: {
@@ -32,6 +33,7 @@ export const AvailableThemes: any = {
     [CssItemBackground]: '#1c1e21',
     [CssItemBoxShadow]: 'none',
     [CssTextColor]: '#b3b3b3',
+    [CssBorderColor]: '#32354778',
   },
   [SearchJSTheme.ThemeLight]: {
     [CssBackdropBackground]: 'rgba(101, 108, 133, 0.8)',
@@ -46,6 +48,7 @@ export const AvailableThemes: any = {
     [CssItemBackground]: 'white',
     [CssItemBoxShadow]: '0 1px 3px 0 #d4d9e1',
     [CssTextColor]: '#969faf',
+    [CssBorderColor]: '#cfcfcf4f',
   },
   [SearchJSTheme.ThemeGithubDark]: {
     [CssBackdropBackground]: 'rgba(1,4,9,0.8)',
@@ -60,6 +63,7 @@ export const AvailableThemes: any = {
     [CssItemBoxShadow]: 'none',
     [CssTextColor]: '#C5CED6',
     [CssTheme]: 'transparent',
+    [CssBorderColor]: '#30363d',
   },
   [SearchJSTheme.ThemeGithubLight]: {
     [CssBackdropBackground]: 'rgba(27,31,36,0.5)',
@@ -74,5 +78,6 @@ export const AvailableThemes: any = {
     [CssItemBoxShadow]: 'none',
     [CssTextColor]: '#1F2329',
     [CssTheme]: 'transparent',
+    [CssBorderColor]: '#d0d7de',
   },
 }

@@ -57,6 +57,9 @@ export class SearchComponent {
     // render initial data list
     this.showHistory(this.searchHistory.getList())
 
+    // show initial data list
+    if (this.app.config.data?.length > 0) this.showSearchResult(this.app.config.data)
+
     this.domListener.onBackDropClick(() => {
       if (!this.app.config.persistent) {
         this.app.close()
@@ -73,15 +76,16 @@ export class SearchComponent {
    */
   private handleOnSearch(): void {
     this.domListener.onSearch(async (keyword: string) => {
+      console.log(keyword)
       if (!keyword) {
         clearTimeout(this.searchTimer)
         this.hideLoading()
         this.showHistory(this.searchHistory.getList())
-        this.hideSearchResult()
+        this.hideSearchResult(keyword)
         return
       }
       this.hideHistories()
-      this.hideSearchResult()
+      this.hideSearchResult(keyword)
       if (this.app.config.onSearch) {
         this.showLoading()
         clearTimeout(this.searchTimer)
@@ -167,8 +171,11 @@ export class SearchComponent {
    *
    * @returns {void}
    */
-  private hideSearchResult(): void {
+  private hideSearchResult(keyword: string): void {
     document.getElementById(ID_RESULTS).style.display = 'none'
+    if (!keyword && this.app.config.data?.length > 0) {
+      this.showSearchResult(this.app.config.data)
+    }
   }
 
   /**
@@ -178,6 +185,9 @@ export class SearchComponent {
    * @returns {void}
    */
   private showHistory(items: Array<SearchJSItem>): void {
+    if (items.length === 0 && this.app.config.data?.length > 0) {
+      return this.hideHistories()
+    }
     const itemInstance = new Item()
     itemInstance.renderList({
       id: ID_HISTORIES,
@@ -185,6 +195,7 @@ export class SearchComponent {
       hideRemoveButton: false,
       notFoundLabel: 'No recent data',
       icon: historyIcon(),
+      isHistoryIcon: true,
     })
     this.handleItemClickListener()
   }
@@ -211,7 +222,9 @@ export class SearchComponent {
       },
       (data: any) => {
         this.searchHistory.remove(data)
-        this.showHistory(this.searchHistory.getList())
+        setTimeout(() => {
+          this.showHistory(this.searchHistory.getList())
+        }, 100)
       },
     )
   }

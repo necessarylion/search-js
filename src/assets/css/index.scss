@@ -114,6 +114,10 @@
       }
     }
 
+    #search-js-histories {
+      overflow: unset;
+    }
+
     #search-js-result {
       display: none;
     }
@@ -155,6 +159,7 @@
 
         .item {
           display: flex;
+          position: relative;
           cursor: pointer;
           flex-direction: row;
           background: var(--search-js-item-bg);
@@ -165,7 +170,22 @@
           box-shadow: var(--search-js-item-box-shadow);
 
           .item-icon {
+            position: relative;
             margin-right: 8px;
+          }
+
+          .floating-history-icon {
+            position: absolute;
+            left: 50%;
+            top: 46%;
+            width: 20px;
+            height: 20px;
+            padding: 0px;
+            border-radius: 250px;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
 
           .item-title {
@@ -183,7 +203,7 @@
           background: var(--search-js-theme);
           color: white;
 
-          svg path {
+          .item-close svg path {
             stroke: white !important;
           }
 

@@ -45,6 +45,12 @@ export interface SearchJSConfig {
   positionTop?: string
 
   /**
+   * max history length
+   * default: 4
+   */
+  maxHistoryLength?: number
+
+  /**
    * data to show on the list
    */
   data?: Array<SearchJSItem>
